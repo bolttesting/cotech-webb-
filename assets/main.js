@@ -951,8 +951,9 @@ var initCardRotatingOnScroll = () => {
 		const DEG2RAD = Math.PI / 180;
 		const cardHeight = cards[0]?.offsetHeight || 0;
 		/* Keep the visible fan inside the stage — smaller offset = tighter arc */
-		const CARD_GAP_OFFSET = isSm ? 40 : isMd ? 68 : isLg ? 120 : 200;
-		const CARD_SCALE = isSm ? 0.46 : isMd ? 0.55 : isLg ? 0.66 : 0.78;
+		const isLaptop = vw >= 1024 && vw <= 1600;
+		const CARD_GAP_OFFSET = isSm ? 40 : isMd ? 68 : isLaptop ? 72 : isLg ? 120 : 200;
+		const CARD_SCALE = isSm ? 0.46 : isMd ? 0.55 : isLaptop ? 0.92 : isLg ? 0.66 : 0.78;
 		const adjustedRadius = Math.max(radius - cardHeight / 2 + CARD_GAP_OFFSET, radius * 0.55);
 		gsap.set(cards, {
 			x: (i) => center + adjustedRadius * Math.sin(i * slice * DEG2RAD),
@@ -1735,8 +1736,8 @@ else initFooterAccordion();
 var initCotechFloatWidgets = () => {
 	if (document.querySelector(".cotech-float-help")) return;
 
-	const waHref = "https://wa.me/971500000000";
-	const callHref = "tel:+971500000000";
+	const waHref = "https://wa.me/971586188058";
+	const callHref = "tel:+971586188058";
 	const waIcon =
 		'<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.52 3.48A11.86 11.86 0 0 0 12.06 0C5.5 0 .16 5.34.16 11.9c0 2.1.55 4.15 1.6 5.96L0 24l6.3-1.65a11.86 11.86 0 0 0 5.75 1.47h.01c6.56 0 11.9-5.34 11.9-11.9 0-3.18-1.24-6.17-3.44-8.44ZM12.06 21.7h-.01a9.8 9.8 0 0 1-5-1.37l-.36-.21-3.74.98 1-3.64-.24-.37a9.8 9.8 0 0 1-1.5-5.24c0-5.42 4.41-9.83 9.84-9.83 2.63 0 5.1 1.02 6.96 2.88a9.78 9.78 0 0 1 2.88 6.95c0 5.43-4.42 9.84-9.83 9.84Zm5.38-7.36c-.29-.15-1.73-.86-2-.95-.27-.1-.46-.15-.66.15-.19.29-.76.95-.93 1.14-.17.2-.34.22-.63.07-.29-.14-1.22-.45-2.33-1.44-.86-.77-1.44-1.72-1.61-2.01-.17-.29-.02-.45.13-.6.13-.13.29-.34.44-.51.15-.17.19-.29.29-.49.1-.19.05-.37-.02-.52-.07-.14-.66-1.59-.9-2.18-.24-.58-.48-.5-.66-.51h-.56c-.19 0-.5.07-.76.37-.26.29-1 1-1 2.43s1.02 2.82 1.17 3.01c.14.19 2 3.05 4.85 4.28.68.29 1.21.47 1.62.6.68.21 1.3.18 1.79.11.55-.08 1.73-.71 1.97-1.39.24-.68.24-1.27.17-1.39-.07-.12-.26-.19-.55-.34Z"/></svg>';
 	const phoneIcon =

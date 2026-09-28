@@ -121,6 +121,54 @@ body {
   }
 }
 
+/* Laptops: drop the fixed hero row height and size the fan so the
+   front cards stay inside the stage instead of being sliced. */
+@media (min-width: 1024px) and (max-width: 1600px) {
+  section.pt-30 {
+    padding-top: 6.5rem;
+  }
+  section.pt-30 .main-container > div.overflow-hidden {
+    height: auto !important;
+    overflow: visible !important;
+  }
+  .cotech-rotating-cards {
+    height: 28rem;
+    margin-top: 1.25rem;
+  }
+  .cotech-rotating-cards [data-rotating-wheel] {
+    top: 118%;
+    width: min(88vw, 44rem) !important;
+    height: min(88vw, 44rem) !important;
+    max-width: min(88vw, 44rem) !important;
+    max-height: min(88vw, 44rem) !important;
+  }
+  .cotech-rotating-cards [data-rotating-card] {
+    width: 14.5rem !important;
+    padding: 0.65rem !important;
+    gap: 0.5rem !important;
+  }
+  .cotech-rotating-cards [data-rotating-card] figure {
+    height: 9.25rem !important;
+  }
+  .cotech-rotating-cards [data-rotating-card] h3 {
+    max-width: 9rem;
+    font-size: 1rem;
+  }
+}
+@media (min-width: 1024px) and (max-width: 1600px) and (max-height: 860px) {
+  section.pt-30 {
+    padding-top: 5.25rem;
+  }
+  section.pt-30 h1 {
+    font-size: 2.65rem;
+    line-height: 1.08;
+  }
+  .cotech-rotating-cards {
+    height: 26rem;
+    margin-top: 0.5rem;
+  }
+}
+
 /* Soft edge fades — always present so side peeks look intentional */
 .cotech-rotating-fade {
   width: 3.5rem;
