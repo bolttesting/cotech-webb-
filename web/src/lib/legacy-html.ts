@@ -2,7 +2,8 @@ import fs from "fs";
 import path from "path";
 import { LEGACY_PAGES } from "./legacy-pages";
 
-const REPO_ROOT = path.join(process.cwd(), "..");
+/** Home + blog main markup only; lives under `web/legacy/` (not repo-root HTML). */
+const LEGACY_HTML_DIR = path.join(process.cwd(), "legacy");
 
 const filenameToSlugFromRegistry = (() => {
   if (!fs.existsSync(path.join(process.cwd(), "src/lib/legacy-pages.ts"))) {
@@ -55,9 +56,9 @@ export function rewriteLegacyLinks(html: string): string {
 
 /** `<main>...</main>` from a legacy `.html` file (scripts stripped, links rewritten). */
 export function readLegacyMainHtml(filename: string): string {
-  const filePath = path.join(REPO_ROOT, filename);
+  const filePath = path.join(LEGACY_HTML_DIR, filename);
   if (!fs.existsSync(filePath)) {
-    throw new Error(`Legacy page not found: ${filename}`);
+    throw new Error(`Legacy page not found: ${filename} (expected under web/legacy/)`);
   }
   const raw = fs.readFileSync(filePath, "utf8");
   const mainMatch = raw.match(/<main[^>]*>[\s\S]*<\/main>/i);
@@ -78,9 +79,9 @@ function rewriteLegacyAssetPaths(html: string): string {
 
 /** Body markup from a legacy `.html` file (scripts stripped). */
 export function readLegacyBodyHtml(filename: string): string {
-  const filePath = path.join(REPO_ROOT, filename);
+  const filePath = path.join(LEGACY_HTML_DIR, filename);
   if (!fs.existsSync(filePath)) {
-    throw new Error(`Legacy page not found: ${filename}`);
+    throw new Error(`Legacy page not found: ${filename} (expected under web/legacy/)`);
   }
   const raw = fs.readFileSync(filePath, "utf8");
   const bodyMatch = raw.match(/<body[^>]*>([\s\S]*)<\/body>/i);
@@ -89,10 +90,3 @@ export function readLegacyBodyHtml(filename: string): string {
   return rewriteLegacyLinks(body);
 }
 
-export function legacyPageMetadata(filename: string): { title?: string; description?: string } {
-  const filePath = path.join(REPO_ROOT, filename);
-  const raw = fs.readFileSync(filePath, "utf8");
-  const title = raw.match(/<title[^>]*>([\s\S]*?)<\/title>/i)?.[1]?.trim();
-  const description = raw.match(/<meta\s+name="description"\s+content="([^"]*)"/i)?.[1];
-  return { title, description };
-}

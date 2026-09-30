@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import { AboutPageContent } from "@/components/pages/AboutPageContent";
 import { MarketingPageLayout } from "@/components/site/MarketingPageLayout";
-import { legacyPageMetadata } from "@/lib/legacy-html";
+import { getMarketingMetadata } from "@/lib/marketing-metadata";
 
 export const dynamic = "force-static";
 
 export function generateMetadata(): Metadata {
-  const { title, description } = legacyPageMetadata("about.html");
+  const { title, description } = getMarketingMetadata("about");
   return {
     title: title ?? undefined,
     description: description ?? undefined,

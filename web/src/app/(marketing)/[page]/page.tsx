@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { LegacyHtmlPage } from "@/components/site/LegacyHtmlPage";
-import { legacyPageMetadata, readLegacyBodyHtml } from "@/lib/legacy-html";
+import { readLegacyBodyHtml } from "@/lib/legacy-html";
+import { getMarketingMetadata } from "@/lib/marketing-metadata";
 import { LEGACY_PAGES } from "@/lib/legacy-pages";
 
 type Props = { params: Promise<{ page: string }> };
@@ -14,7 +15,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { page } = await params;
   const file = LEGACY_PAGES[page];
   if (!file) return {};
-  const { title, description } = legacyPageMetadata(file);
+  const { title, description } = getMarketingMetadata(file);
   return { title: title ?? undefined, description: description ?? undefined };
 }
 

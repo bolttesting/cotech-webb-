@@ -14,5 +14,5 @@
 |--------|--------|
 | **React** | All core marketing + **8 service detail pages**, projects, legal, blog/project/service detail templates + shared `SiteHeader` / `SiteFooter` |
 | **Legacy loader** | None (empty `legacy-pages.ts`; `[page]` reserved for future slugs only) |
-| **Home** | `MarketingPageLayout` + `HomePageContent` (main HTML from `index.html` via `readLegacyMainHtml`) |
+| **Home / blog listing** | `web/legacy/index.html` + `blog.html` only (main via `readLegacyMainHtml`); SEO from `marketing-metadata.ts` |
 | **Next wave** | Split home main into section React components (full JSX like About) |

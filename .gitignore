@@ -9,3 +9,7 @@ Thumbs.db
 *.log
 .env
 .env.*
+
+# Legacy static site (Next app lives in web/; only web/legacy/*.html is kept)
+/*.html
+Website Visuals/

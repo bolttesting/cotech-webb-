@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import { ProjectClinicLeadEnginePageContent } from "@/components/pages/ProjectClinicLeadEnginePageContent";
 import { MarketingPageLayout } from "@/components/site/MarketingPageLayout";
-import { legacyPageMetadata } from "@/lib/legacy-html";
+import { getMarketingMetadata } from "@/lib/marketing-metadata";
 
 export const dynamic = "force-static";
 
 export function generateMetadata(): Metadata {
-  const { title, description } = legacyPageMetadata("project-clinic-lead-engine.html");
+  const { title, description } = getMarketingMetadata("project-clinic-lead-engine");
   return {
     title: title ?? undefined,
     description: description ?? undefined,
