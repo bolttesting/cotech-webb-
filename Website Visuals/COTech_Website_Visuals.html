@@ -1,0 +1,210 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>COTech Website Visuals</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0B2E33;--teal:#0D666C;--mint:#3FD0C4;--mintSoft:#8FD3CE;--bronze:#8A5A14;--grey:#55625F;--paper:#F6F7F6;--band:#EDF1F0;--rule:#C9D2D0;--bg:#F6F7F6;--fg:#0B2E33;--card:#fff;--muted:#55625F;--line:#DCE4E2}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#061A1D;--fg:#EAF3F2;--card:#0C2A2F;--muted:#9DB5B2;--line:#1D4046}}
+:root[data-theme="dark"]{--bg:#061A1D;--fg:#EAF3F2;--card:#0C2A2F;--muted:#9DB5B2;--line:#1D4046}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--fg);font:400 16px/1.55 Archivo,system-ui,sans-serif}
+.hero{background:linear-gradient(160deg,#0E3A40,#0B2E33 45%,#061A1D);color:#fff;padding:64px 24px 56px}
+.wrap{max-width:1240px;margin:0 auto;padding:0 16px}
+.eb{font:500 13px 'IBM Plex Mono';letter-spacing:.14em;text-transform:uppercase;color:var(--mintSoft);display:flex;gap:10px;align-items:center}
+.eb i{width:9px;height:9px;border-radius:50%;background:var(--mint);box-shadow:0 0 12px var(--mint)}
+h1{font:800 clamp(32px,5vw,52px)/1.05 Archivo;letter-spacing:-.02em;margin:14px 0 14px;max-width:820px}
+.hero p{color:#C3DAD7;max-width:760px;font-size:17px}
+.stats{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}
+.stats div{border:1px solid rgba(143,211,206,.25);background:rgba(255,255,255,.05);border-radius:14px;padding:12px 16px}
+.stats b{display:block;font:700 24px Archivo}.stats span{font:500 12px 'IBM Plex Mono';color:var(--mintSoft);letter-spacing:.06em;text-transform:uppercase}
+section{padding:48px 0 8px}
+h2{font:800 28px Archivo;letter-spacing:-.01em}
+.lede{color:var(--muted);margin:6px 0 22px;max-width:760px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:20px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden;display:flex;flex-direction:column}
+.media{aspect-ratio:3/4;background:#061A1D}
+.media video{width:100%;height:100%;object-fit:cover;display:block}
+.body{padding:18px 20px 20px;display:flex;flex-direction:column;gap:8px;flex:1}
+.tag{align-self:flex-start;font:600 11px 'IBM Plex Mono';letter-spacing:.1em;text-transform:uppercase;color:var(--teal);background:rgba(13,102,108,.12);padding:4px 8px;border-radius:6px}
+.tag.new{color:var(--bronze);background:rgba(138,90,20,.13)}
+h3{font:800 21px Archivo}
+.what{color:var(--fg)}
+dl{display:grid;grid-template-columns:78px 1fr;gap:4px 10px;font-size:14px;color:var(--muted);border-top:1px solid var(--line);padding-top:10px;margin-top:2px}
+dt{font:600 11px 'IBM Plex Mono';letter-spacing:.08em;text-transform:uppercase;padding-top:3px}
+code{font:500 13px 'IBM Plex Mono';color:var(--fg);word-break:break-all}
+.dl{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto;padding-top:8px}
+.dl a{text-decoration:none;color:var(--fg);border:1px solid var(--line);border-radius:10px;padding:7px 11px;font:600 14px Archivo;display:flex;gap:8px;align-items:baseline}
+.dl a:hover{border-color:var(--teal);color:var(--teal)}
+.dl small{font:500 11px 'IBM Plex Mono';color:var(--muted)}
+/* copy */
+.cp{display:grid;gap:8px;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:14.5px}
+.cp small{display:block;font:600 11px 'IBM Plex Mono';letter-spacing:.1em;color:var(--teal);margin-bottom:2px}
+.cp div+div small{color:var(--bronze)}
+.intro{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px 22px;margin-bottom:20px;display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.intro small{display:block;font:600 11px 'IBM Plex Mono';letter-spacing:.1em;color:var(--teal);margin-bottom:4px}
+@media (max-width:700px){.intro{grid-template-columns:1fr}}
+.how{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px 24px;margin-bottom:56px}
+.how ol{padding-left:20px;display:grid;gap:10px;margin:12px 0}
+pre{background:#061A1D;color:#CFE6E3;border-radius:12px;padding:16px;overflow-x:auto;font:500 13px/1.6 'IBM Plex Mono';margin-top:10px}
+.note{color:var(--muted);font-size:14px;margin-top:12px}
+@media (max-width:420px){.grid{grid-template-columns:1fr}}
+</style></head><body>
+<header class="hero"><div class="wrap"><div class="eb"><i></i>COTech Business Intelligence Solutions · website visuals</div>
+<h1>Animated service examples for the COTech website</h1>
+<p>Each visual is a short, looping product demo of the service in use at a fictional UAE business. Visitors see a working example, not stock photography. Every animation comes as a GIF, an MP4 and a WebM, with a still JPG poster that uses the exact filename the draft site already expects.</p>
+<div class="stats"><div><b>27</b><span>animated visuals</span></div><div><b>8</b><span>drop-in replacements</span></div><div><b>7</b><span>new carousel cards</span></div><div><b>12</b><span>calling + corporate web</span></div><div><b>3:4</b><span>matches the site’s crops</span></div></div></div></header>
+<main class="wrap">
+<section><h2>Drop-in replacements</h2><p class="lede">These use the same filenames as the draft site. Copy the JPGs into <code>/images</code> and the site updates straight away. Swap in the GIF or video version where you want motion.</p>
+<div class="grid"><article class="card">
+  <div class="media"><video src="cotech-svc-systems.mp4" poster="cotech-svc-systems.jpg" autoplay muted loop playsinline preload="metadata"></video></div>
+  <div class="body"><div class="tag ">Drop-in · same filename</div>
+   <h3>Digital Business Systems</h3><p class="what">One lead travels through five connected stages (capture, qualify, manage, deliver, measure), each lighting up with a live event.</p>
+   <dl><dt>Replaces</dt><dd><code>images/cotech-svc-systems.jpg</code></dd><dt>Used in</dt><dd>Hero banner (“COTech digital business systems”), the Digital Business Systems card, its service page, and the shared page-header image used across the site.</dd><dt>Size</dt><dd>864 × 1152 (3:4)</dd></dl>
+   <div class="dl"><a href="cotech-svc-systems.jpg" download>JPG poster<small>204 KB</small></a><a href="cotech-svc-systems.gif" download>GIF<small>2.5 MB</small></a><a href="cotech-svc-systems.mp4" download>MP4<small>425 KB</small></a><a href="cotech-svc-systems.webm" download>WebM<small>948 KB</small></a></div></div></article><article class="card">
+  <div class="media"><video src="cotech-svc-lead.mp4" poster="cotech-svc-lead.jpg" autoplay muted loop playsinline preload="metadata"></video></div>
+  <div class="body"><div class="tag ">Drop-in · same filename</div>
+   <h3>Lead Generation</h3><p class="what">A 3-step qualifying form on a phone. As it is filled, the lead source, GA4 conversion and a scored CRM lead appear alongside.</p>
+   <dl><dt>Replaces</dt><dd><code>images/cotech-svc-lead.jpg</code></dd><dt>Used in</dt><dd>Lead Generation card on Home, Services and Projects, plus the Lead Generation service page.</dd><dt>Size</dt><dd>864 × 1152 (3:4)</dd></dl>
+   <div class="dl"><a href="cotech-svc-lead.jpg" download>JPG poster<small>186 KB</small></a><a href="cotech-svc-lead.gif" download>GIF<small>3.4 MB</small></a><a href="cotech-svc-lead.mp4" download>MP4<small>562 KB</small></a><a href="cotech-svc-lead.webm" download>WebM<small>1.1 MB</small></a></div></div></article><article class="card">
+  <div class="media"><video src="cotech-svc-crm.mp4" poster="cotech-svc-crm.jpg" autoplay muted loop playsinline preload="metadata"></video></div>
+  <div class="body"><div class="tag ">Drop-in · same filename</div>
+   <h3>CRM Automation</h3><p class="what">A new deal is auto-assigned, then moves across the pipeline while follow-ups fire on their own.</p>
+   <dl><dt>Replaces</dt><dd><code>images/cotech-svc-crm.jpg</code></dd><dt>Used in</dt><dd>CRM Automation card, the “Sales Pipelines” carousel card, process step 1, and the CRM Automation service page.</dd><dt>Size</dt><dd>864 × 1152 (3:4)</dd></dl>
+   <div class="dl"><a href="cotech-svc-crm.jpg" download>JPG poster<small>218 KB</small></a><a href="cotech-svc-crm.gif" download>GIF<small>1.8 MB</small></a><a href="cotech-svc-crm.mp4" download>MP4<small>538 KB</small></a><a href="cotech-svc-crm.webm" download>WebM<small>1.1 MB</small></a></div></div></article><article class="card">
+  <div class="media"><video src="cotech-svc-ai.mp4" poster="cotech-svc-ai.jpg" autoplay muted loop playsinline preload="metadata"></video></div>
+  <div class="body"><div class="tag ">Drop-in · same filename</div>
+   <h3>AI Agents</h3><p class="what">A website AI assistant answers a pricing question from approved documents and books the appointment into the calendar.</p>
+   <dl><dt>Replaces</dt><dd><code>images/cotech-svc-ai.jpg</code></dd><dt>Used in</dt><dd>AI Agents card, process step 3, and the AI Agents service page.</dd><dt>Size</dt><dd>864 × 1152 (3:4)</dd></dl>
+   <div class="dl"><a href="cotech-svc-ai.jpg" download>JPG poster<small>234 KB</small></a><a href="cotech-svc-ai.gif" download>GIF<small>2.1 MB</small></a><a href="cotech-svc-ai.mp4" download>MP4<small>526 KB</small></a><a href="cotech-svc-ai.webm" download>WebM<small>1.0 MB</small></a></div></div></article><article class="card">
+  <div class="media"><video src="cotech-svc-automation.mp4" poster="cotech-svc-automation.jpg" autoplay muted loop playsinline preload="metadata"></video></div>
+  <div class="body"><div class="tag ">Drop-in · same filename</div>
+   <h3>Business Automation</h3><p class="what">A workflow runs step by step: payment received → invoice → PDF → email → CRM → team alert.</p>
+   <dl><dt>Replaces</dt><dd><code>images/cotech-svc-automation.jpg</code></dd><dt>Used in</dt><dd>Business Automation card and the Business Automation service page.</dd><dt>Size</dt><dd>864 × 1152 (3:4)</dd></dl>
+   <div class="dl"><a href="cotech-svc-automation.jpg" download>JPG poster<small>191 KB</small></a><a href="cotech-svc-automation.gif" download>GIF<small>1.9 MB</small></a><a href="cotech-svc-automation.mp4" download>MP4<small>487 KB</small></a><a href="cotech-svc-automation.webm" download>WebM<small>871 KB</small></a></div></div></article><article class="card">
+  <div class="media"><video src="cotech-svc-web.mp4" poster="cotech-svc-web.jpg" autoplay muted loop playsinline preload="metadata"></video></div>
+  <div class="body"><div class="tag ">Drop-in · same filename</div>
+   <h3>Web Platforms</h3><p class="what">A customer portal (desktop and mobile) shows live project status, and the client approves a variation order.</p>
+   <dl><dt>Replaces</dt><dd><code>images/cotech-svc-web.jpg</code></dd><dt>Used in</dt><dd>Web Platforms card, process step 2, and the Web Platforms service page.</dd><dt>Size</dt><dd>864 × 1152 (3:4)</dd></dl>
+   <div class="dl"><a href="cotech-svc-web.jpg" download>JPG poster<small>199 KB</small></a><a href="cotech-svc-web.gif" download>GIF<small>2.0 MB</small></a><a href="cotech-svc-web.mp4" download>MP4<small>457 KB</small></a><a href="cotech-svc-web.webm" download>WebM<small>949 KB</small></a></div></div></article><article class="card">
+  <div class="media"><video src="cotech-about-tall.mp4" poster="cotech-about-tall.jpg" autoplay muted loop playsinline preload="metadata"></video></div>
+  <div class="body"><div class="tag ">Drop-in · same filename</div>
+   <h3>About / team section</h3><p class="what">A live Blueprint session: three collaborators map a lead-to-cash flow on sticky notes, ending in a fixed-price proposal.</p>
+   <dl><dt>Replaces</dt><dd><code>images/cotech-about-tall.jpg</code></dd><dt>Used in</dt><dd>The tall About image on Home, About and Team (“COTech team collaborating on connected systems”).</dd><dt>Size</dt><dd>900 × 1200 (3:4)</dd></dl>
+   <div class="dl"><a href="cotech-about-tall.jpg" download>JPG poster<small>254 KB</small></a><a href="cotech-about-tall.gif" download>GIF<small>2.5 MB</small></a><a href="cotech-about-tall.mp4" download>MP4<small>618 KB</small></a><a href="cotech-about-tall.webm" download>WebM<small>1.2 MB</small></a></div></div></article><article class="card">
+  <div class="media"><video src="cotech-network.mp4" poster="cotech-network.jpg" autoplay muted loop playsinline preload="metadata"></video></div>
+  <div class="body"><div class="tag ">Drop-in · same filename</div>
+   <h3>Features page</h3><p class="what">COTech at the centre, with every business tool connected to it and data pulses moving between them.</p>
+   <dl><dt>Replaces</dt><dd><code>images/cotech-network.jpg</code></dd><dt>Used in</dt><dd>“Connected business systems delivering measurable outcomes” on the Features page. The PNG is a drop-in replacement.</dd><dt>Size</dt><dd>948 × 1290 (2× the 474 × 645 slot)</dd></dl>
+   <div class="dl"><a href="cotech-network.png" download>PNG<small>660 KB</small></a><a href="cotech-network.jpg" download>JPG poster<small>197 KB</small></a><a href="cotech-network.gif" download>GIF<small>4.0 MB</small></a><a href="cotech-network.mp4" download>MP4<small>495 KB</small></a><a href="cotech-network.webm" download>WebM<small>1011 KB</small></a></div></div></article></div></section>
+<section><h2>New visuals for the homepage carousel</h2><p class="lede">The rotating card arc on the homepage currently reuses the six service images under new captions. These give each card its own example. Add the files, then point each card’s <code>src</code> at its new name.</p>
+<div class="grid"><article class="card">
+  <div class="media"><video src="cotech-whatsapp-lead-capture.mp4" poster="cotech-whatsapp-lead-capture.jpg" autoplay muted loop playsinline preload="metadata"></video></div>
+  <div class="body"><div class="tag new">New file</div>
+   <h3>WhatsApp Lead Capture</h3><p class="what">A website chat button opens WhatsApp with a prefilled, source-tagged message, and the lead is logged in the CRM.</p>
+   <dl><dt>File</dt><dd><code>images/cotech-whatsapp-lead-capture.jpg</code></dd><dt>Used in</dt><dd>Home carousel card “WhatsApp Lead Capture” (currently reuses cotech-svc-lead.jpg).</dd></dl>
+   <div class="dl"><a href="cotech-whatsapp-lead-capture.jpg" download>JPG poster<small>225 KB</small></a><a href="cotech-whatsapp-lead-capture.gif" download>GIF<small>2.8 MB</small></a><a href="cotech-whatsapp-lead-capture.mp4" download>MP4<small>529 KB</small></a><a href="cotech-whatsapp-lead-capture.webm" download>WebM<small>1.0 MB</small></a></div></div></article><article class="card">
+  <div class="media"><video src="cotech-ai-whatsapp-agent.mp4" poster="cotech-ai-whatsapp-agent.jpg" autoplay muted loop playsinline preload="metadata"></video></div>
+  <div class="body"><div class="tag new">New file</div>
+   <h3>AI WhatsApp Agent</h3><p class="what">An AI agent qualifies a property enquiry after hours, books a viewing and hands over to a human agent.</p>
+   <dl><dt>File</dt><dd><code>images/cotech-ai-whatsapp-agent.jpg</code></dd><dt>Used in</dt><dd>Home carousel card “AI WhatsApp Agent” (currently reuses cotech-svc-ai.jpg).</dd></dl>
+   <div class="dl"><a href="cotech-ai-whatsapp-agent.jpg" download>JPG poster<small>246 KB</small></a><a href="cotech-ai-whatsapp-agent.gif" download>GIF<small>2.9 MB</small></a><a href="cotech-ai-whatsapp-agent.mp4" download>MP4<small>508 KB</small></a><a href="cotech-ai-whatsapp-agent.webm" download>WebM<small>953 KB</small></a></div></div></article><article class="card">
+  <div class="media"><video src="cotech-system-integrations.mp4" poster="cotech-system-integrations.jpg" autoplay muted loop playsinline preload="metadata"></video></div>
+  <div class="body"><div class="tag new">New file</div>
+   <h3>System Integrations</h3><p class="what">Website, WhatsApp, Stripe, Zoho Books, Sheets and Gmail sync into a single CRM record.</p>
+   <dl><dt>File</dt><dd><code>images/cotech-system-integrations.jpg</code></dd><dt>Used in</dt><dd>Home carousel card “System Integrations” (currently reuses cotech-svc-automation.jpg).</dd></dl>
+   <div class="dl"><a href="cotech-system-integrations.jpg" download>JPG poster<small>170 KB</small></a><a href="cotech-system-integrations.gif" download>GIF<small>3.2 MB</small></a><a href="cotech-system-integrations.mp4" download>MP4<small>412 KB</small></a><a href="cotech-system-integrations.webm" download>WebM<small>805 KB</small></a></div></div></article><article class="card">
+  <div class="media"><video src="cotech-lead-gen-websites.mp4" poster="cotech-lead-gen-websites.jpg" autoplay muted loop playsinline preload="metadata"></video></div>
+  <div class="body"><div class="tag new">New file</div>
+   <h3>Lead-Gen Websites</h3><p class="what">A conversion-focused website with a quote form, a mobile speed score and the enquiry arriving in the CRM.</p>
+   <dl><dt>File</dt><dd><code>images/cotech-lead-gen-websites.jpg</code></dd><dt>Used in</dt><dd>Home carousel card “Lead-Gen Websites” (currently reuses cotech-svc-web.jpg).</dd></dl>
+   <div class="dl"><a href="cotech-lead-gen-websites.jpg" download>JPG poster<small>207 KB</small></a><a href="cotech-lead-gen-websites.gif" download>GIF<small>2.2 MB</small></a><a href="cotech-lead-gen-websites.mp4" download>MP4<small>496 KB</small></a><a href="cotech-lead-gen-websites.webm" download>WebM<small>1.0 MB</small></a></div></div></article><article class="card">
+  <div class="media"><video src="cotech-quote-automation.mp4" poster="cotech-quote-automation.jpg" autoplay muted loop playsinline preload="metadata"></video></div>
+  <div class="body"><div class="tag new">New file</div>
+   <h3>Quote Automation</h3><p class="what">One click turns CRM deal data into a VAT-correct quotation that is sent, viewed and accepted.</p>
+   <dl><dt>File</dt><dd><code>images/cotech-quote-automation.jpg</code></dd><dt>Used in</dt><dd>Home carousel card “Quote Automation” (currently reuses cotech-svc-crm.jpg).</dd></dl>
+   <div class="dl"><a href="cotech-quote-automation.jpg" download>JPG poster<small>227 KB</small></a><a href="cotech-quote-automation.gif" download>GIF<small>3.0 MB</small></a><a href="cotech-quote-automation.mp4" download>MP4<small>584 KB</small></a><a href="cotech-quote-automation.webm" download>WebM<small>1.2 MB</small></a></div></div></article><article class="card">
+  <div class="media"><video src="cotech-executive-dashboards.mp4" poster="cotech-executive-dashboards.jpg" autoplay muted loop playsinline preload="metadata"></video></div>
+  <div class="body"><div class="tag new">New file</div>
+   <h3>Executive Dashboards</h3><p class="what">Live KPIs, revenue against target, leads by source and top performers.</p>
+   <dl><dt>File</dt><dd><code>images/cotech-executive-dashboards.jpg</code></dd><dt>Used in</dt><dd>Home carousel card “Executive Dashboards” (currently reuses cotech-svc-systems.jpg).</dd></dl>
+   <div class="dl"><a href="cotech-executive-dashboards.jpg" download>JPG poster<small>199 KB</small></a><a href="cotech-executive-dashboards.gif" download>GIF<small>1.9 MB</small></a><a href="cotech-executive-dashboards.mp4" download>MP4<small>441 KB</small></a><a href="cotech-executive-dashboards.webm" download>WebM<small>935 KB</small></a></div></div></article><article class="card">
+  <div class="media"><video src="cotech-connected-operations.mp4" poster="cotech-connected-operations.jpg" autoplay muted loop playsinline preload="metadata"></video></div>
+  <div class="body"><div class="tag new">New file</div>
+   <h3>Connected Operations</h3><p class="what">One customer’s timeline: nine automated events across eight tools, from enquiry to deposit.</p>
+   <dl><dt>File</dt><dd><code>images/cotech-connected-operations.jpg</code></dd><dt>Used in</dt><dd>Home carousel card “Connected Operations” (currently reuses cotech-svc-systems.jpg).</dd></dl>
+   <div class="dl"><a href="cotech-connected-operations.jpg" download>JPG poster<small>223 KB</small></a><a href="cotech-connected-operations.gif" download>GIF<small>3.2 MB</small></a><a href="cotech-connected-operations.mp4" download>MP4<small>429 KB</small></a><a href="cotech-connected-operations.webm" download>WebM<small>967 KB</small></a></div></div></article></div></section>
+<section><h2>New service line: Centralised Sales Calling</h2><p class="lede">A cloud calling system for sales teams, connected to the CRM. One main visual plus five feature cards, each with ready-to-use “What we solve / What changes” copy in the same style as the other service pages.</p>
+<div class="grid"><article class="card">
+  <div class="media"><video src="cotech-svc-sales-calling.mp4" poster="cotech-svc-sales-calling.jpg" autoplay muted loop playsinline preload="metadata"></video></div>
+  <div class="body"><div class="tag new">New service · main</div>
+   <h3>Centralised Sales Calling</h3><p class="what">An incoming call is matched to the CRM contact, recorded, and ends with an AI summary (topic, objectives, next step) logged to the deal.</p><div class="cp"><div><small>WHAT WE SOLVE</small>Sales calls happen on personal mobiles, so nothing is recorded, nothing reaches the CRM and managers cannot see what was promised.</div><div><small>WHAT CHANGES</small>One business calling system on local UAE numbers. Every call is recorded, transcribed, summarised by AI and logged against the right contact.</div></div>
+   <dl><dt>File</dt><dd><code>images/cotech-svc-sales-calling.jpg</code></dd><dt>Used in</dt><dd>Service page hero / system image and the service card for the new line.</dd></dl>
+   <div class="dl"><a href="cotech-svc-sales-calling.jpg" download>JPG poster<small>204 KB</small></a><a href="cotech-svc-sales-calling.gif" download>GIF<small>3.3 MB</small></a><a href="cotech-svc-sales-calling.mp4" download>MP4<small>621 KB</small></a><a href="cotech-svc-sales-calling.webm" download>WebM<small>1.1 MB</small></a></div></div></article><article class="card">
+  <div class="media"><video src="cotech-call-click-to-call.mp4" poster="cotech-call-click-to-call.jpg" autoplay muted loop playsinline preload="metadata"></video></div>
+  <div class="body"><div class="tag new">Feature card</div>
+   <h3>Click-to-Call &amp; Business Numbers</h3><p class="what">A rep clicks a number in the CRM call list and dials out on the company Dubai line, recorded automatically.</p><div class="cp"><div><small>WHAT WE SOLVE</small>Reps dial from personal phones, so customers save the rep’s number, not the company’s.</div><div><small>WHAT CHANGES</small>Click-to-call from the CRM on your own Dubai, Abu Dhabi or toll-free numbers, from a laptop or the mobile app.</div></div>
+   <dl><dt>File</dt><dd><code>images/cotech-call-click-to-call.jpg</code></dd><dt>Used in</dt><dd>Feature card 01</dd></dl>
+   <div class="dl"><a href="cotech-call-click-to-call.jpg" download>JPG poster<small>195 KB</small></a><a href="cotech-call-click-to-call.gif" download>GIF<small>2.5 MB</small></a><a href="cotech-call-click-to-call.mp4" download>MP4<small>501 KB</small></a><a href="cotech-call-click-to-call.webm" download>WebM<small>1019 KB</small></a></div></div></article><article class="card">
+  <div class="media"><video src="cotech-call-routing-ivr.mp4" poster="cotech-call-routing-ivr.jpg" autoplay muted loop playsinline preload="metadata"></video></div>
+  <div class="body"><div class="tag new">Feature card</div>
+   <h3>Smart Routing &amp; IVR</h3><p class="what">A caller is recognised, picks Arabic or English, and is routed to their account owner, with a WhatsApp and callback fallback.</p><div class="cp"><div><small>WHAT WE SOLVE</small>Callers ring the wrong person or wait on hold, and missed calls are forgotten.</div><div><small>WHAT CHANGES</small>Arabic and English menus with CRM-aware routing send each caller to the right person. A missed call triggers a WhatsApp message and a callback task.</div></div>
+   <dl><dt>File</dt><dd><code>images/cotech-call-routing-ivr.jpg</code></dd><dt>Used in</dt><dd>Feature card 02</dd></dl>
+   <div class="dl"><a href="cotech-call-routing-ivr.jpg" download>JPG poster<small>226 KB</small></a><a href="cotech-call-routing-ivr.gif" download>GIF<small>2.9 MB</small></a><a href="cotech-call-routing-ivr.mp4" download>MP4<small>428 KB</small></a><a href="cotech-call-routing-ivr.webm" download>WebM<small>1011 KB</small></a></div></div></article><article class="card">
+  <div class="media"><video src="cotech-call-recordings-transcripts.mp4" poster="cotech-call-recordings-transcripts.jpg" autoplay muted loop playsinline preload="metadata"></video></div>
+  <div class="body"><div class="tag new">Feature card</div>
+   <h3>Recordings &amp; Transcripts</h3><p class="what">A recording plays with a speaker-coloured waveform, the transcript follows along in Arabic and English, and a keyword search highlights matches.</p><div class="cp"><div><small>WHAT WE SOLVE</small>When there is a dispute about what was agreed on a call, nobody can check.</div><div><small>WHAT CHANGES</small>Every call is recorded and transcribed in Arabic and English, searchable by word, with role-based access.</div></div>
+   <dl><dt>File</dt><dd><code>images/cotech-call-recordings-transcripts.jpg</code></dd><dt>Used in</dt><dd>Feature card 03</dd></dl>
+   <div class="dl"><a href="cotech-call-recordings-transcripts.jpg" download>JPG poster<small>214 KB</small></a><a href="cotech-call-recordings-transcripts.gif" download>GIF<small>2.0 MB</small></a><a href="cotech-call-recordings-transcripts.mp4" download>MP4<small>454 KB</small></a><a href="cotech-call-recordings-transcripts.webm" download>WebM<small>947 KB</small></a></div></div></article><article class="card">
+  <div class="media"><video src="cotech-call-ai-summaries.mp4" poster="cotech-call-ai-summaries.jpg" autoplay muted loop playsinline preload="metadata"></video></div>
+  <div class="body"><div class="tag new">Feature card</div>
+   <h3>AI Call Summaries</h3><p class="what">Seconds after a call, AI fills topic, objectives, decision maker, budget, objection, timeline and next steps, then updates the CRM.</p><div class="cp"><div><small>WHAT WE SOLVE</small>Reps do not log calls, or log one line, so the CRM never knows what the customer said.</div><div><small>WHAT CHANGES</small>AI extracts topic, objectives, objections, budget and next steps, updates the deal and creates the follow-up tasks.</div></div>
+   <dl><dt>File</dt><dd><code>images/cotech-call-ai-summaries.jpg</code></dd><dt>Used in</dt><dd>Feature card 04</dd></dl>
+   <div class="dl"><a href="cotech-call-ai-summaries.jpg" download>JPG poster<small>223 KB</small></a><a href="cotech-call-ai-summaries.gif" download>GIF<small>3.1 MB</small></a><a href="cotech-call-ai-summaries.mp4" download>MP4<small>438 KB</small></a><a href="cotech-call-ai-summaries.webm" download>WebM<small>989 KB</small></a></div></div></article><article class="card">
+  <div class="media"><video src="cotech-call-analytics-qa.mp4" poster="cotech-call-analytics-qa.jpg" autoplay muted loop playsinline preload="metadata"></video></div>
+  <div class="body"><div class="tag new">Feature card</div>
+   <h3>Call Analytics &amp; QA</h3><p class="what">A live calls dashboard with answer rate, missed-call callbacks, AI-tagged topics and quality scores per rep.</p><div class="cp"><div><small>WHAT WE SOLVE</small>Managers cannot listen to hundreds of calls, so coaching is guesswork.</div><div><small>WHAT CHANGES</small>Live call dashboards, AI-tagged call topics and quality scores against your sales script for every rep.</div></div>
+   <dl><dt>File</dt><dd><code>images/cotech-call-analytics-qa.jpg</code></dd><dt>Used in</dt><dd>Feature card 05</dd></dl>
+   <div class="dl"><a href="cotech-call-analytics-qa.jpg" download>JPG poster<small>201 KB</small></a><a href="cotech-call-analytics-qa.gif" download>GIF<small>1.8 MB</small></a><a href="cotech-call-analytics-qa.mp4" download>MP4<small>424 KB</small></a><a href="cotech-call-analytics-qa.webm" download>WebM<small>897 KB</small></a></div></div></article></div></section>
+<section><h2>Corporate Websites</h2><p class="lede">A dedicated set for the Corporate Websites service: one main visual plus five feature cards that make the case for the build and the Care plan.</p>
+<div class="grid"><article class="card">
+  <div class="media"><video src="cotech-svc-corporate-web.mp4" poster="cotech-svc-corporate-web.jpg" autoplay muted loop playsinline preload="metadata"></video></div>
+  <div class="body"><div class="tag new">Service · main</div>
+   <h3>Corporate Websites</h3><p class="what">A bilingual-ready company site for a fictional engineering firm: the page builds, scrolls to the contact form, and the enquiry lands in the CRM.</p><div class="cp"><div><small>WHAT WE SOLVE</small>The website looks outdated, loads slowly, and enquiries land in an inbox nobody watches.</div><div><small>WHAT CHANGES</small>A professional company website with clear services and proof, plus an enquiry path that feeds your CRM.</div></div>
+   <dl><dt>File</dt><dd><code>images/cotech-svc-corporate-web.jpg</code></dd><dt>Used in</dt><dd>Corporate Websites service card and page hero (Web Platforms line).</dd></dl>
+   <div class="dl"><a href="cotech-svc-corporate-web.jpg" download>JPG poster<small>232 KB</small></a><a href="cotech-svc-corporate-web.gif" download>GIF<small>3.8 MB</small></a><a href="cotech-svc-corporate-web.mp4" download>MP4<small>755 KB</small></a><a href="cotech-svc-corporate-web.webm" download>WebM<small>1.3 MB</small></a></div></div></article><article class="card">
+  <div class="media"><video src="cotech-web-bilingual.mp4" poster="cotech-web-bilingual.jpg" autoplay muted loop playsinline preload="metadata"></video></div>
+  <div class="body"><div class="tag new">Feature card</div>
+   <h3>Bilingual EN / AR</h3><p class="what">One click switches the site from English to a properly mirrored right-to-left Arabic version.</p><div class="cp"><div><small>WHAT WE SOLVE</small>Arabic pages are an afterthought, often machine-translated, with a broken right-to-left layout.</div><div><small>WHAT CHANGES</small>Native English and Arabic versions with proper RTL layout, Arabic typography and separate SEO for each language.</div></div>
+   <dl><dt>File</dt><dd><code>images/cotech-web-bilingual.jpg</code></dd><dt>Used in</dt><dd>Feature card 01</dd></dl>
+   <div class="dl"><a href="cotech-web-bilingual.jpg" download>JPG poster<small>180 KB</small></a><a href="cotech-web-bilingual.gif" download>GIF<small>3.0 MB</small></a><a href="cotech-web-bilingual.mp4" download>MP4<small>718 KB</small></a><a href="cotech-web-bilingual.webm" download>WebM<small>1.3 MB</small></a></div></div></article><article class="card">
+  <div class="media"><video src="cotech-web-cms.mp4" poster="cotech-web-cms.jpg" autoplay muted loop playsinline preload="metadata"></video></div>
+  <div class="body"><div class="tag new">Feature card</div>
+   <h3>Easy-Edit CMS</h3><p class="what">A team member writes a news post, hits Publish, and it appears on the live site.</p><div class="cp"><div><small>WHAT WE SOLVE</small>Every text change needs the developer, so the site goes stale.</div><div><small>WHAT CHANGES</small>An easy editor with roles and version history, so your team publishes news, projects and jobs in minutes.</div></div>
+   <dl><dt>File</dt><dd><code>images/cotech-web-cms.jpg</code></dd><dt>Used in</dt><dd>Feature card 02</dd></dl>
+   <div class="dl"><a href="cotech-web-cms.jpg" download>JPG poster<small>210 KB</small></a><a href="cotech-web-cms.gif" download>GIF<small>2.1 MB</small></a><a href="cotech-web-cms.mp4" download>MP4<small>413 KB</small></a><a href="cotech-web-cms.webm" download>WebM<small>878 KB</small></a></div></div></article><article class="card">
+  <div class="media"><video src="cotech-web-responsive.mp4" poster="cotech-web-responsive.jpg" autoplay muted loop playsinline preload="metadata"></video></div>
+  <div class="body"><div class="tag new">Feature card</div>
+   <h3>Responsive Design</h3><p class="what">The same site on desktop, tablet and phone, with passing Core Web Vitals on mobile.</p><div class="cp"><div><small>WHAT WE SOLVE</small>Most visitors arrive on a phone, and the site was designed for a desktop.</div><div><small>WHAT CHANGES</small>Layouts built for desktop, tablet and mobile, tested on real devices and tuned to load fast on mobile data.</div></div>
+   <dl><dt>File</dt><dd><code>images/cotech-web-responsive.jpg</code></dd><dt>Used in</dt><dd>Feature card 03</dd></dl>
+   <div class="dl"><a href="cotech-web-responsive.jpg" download>JPG poster<small>197 KB</small></a><a href="cotech-web-responsive.gif" download>GIF<small>4.0 MB</small></a><a href="cotech-web-responsive.mp4" download>MP4<small>598 KB</small></a><a href="cotech-web-responsive.webm" download>WebM<small>1.2 MB</small></a></div></div></article><article class="card">
+  <div class="media"><video src="cotech-web-seo-speed.mp4" poster="cotech-web-seo-speed.jpg" autoplay muted loop playsinline preload="metadata"></video></div>
+  <div class="body"><div class="tag new">Feature card</div>
+   <h3>SEO &amp; Speed</h3><p class="what">A search for the firm’s service returns a rich result, backed by high speed and accessibility scores.</p><div class="cp"><div><small>WHAT WE SOLVE</small>The company does not show up when clients search for its services.</div><div><small>WHAT CHANGES</small>Technical SEO, structured data, sitemaps and a 90+ speed target, tracked in Search Console and GA4.</div></div>
+   <dl><dt>File</dt><dd><code>images/cotech-web-seo-speed.jpg</code></dd><dt>Used in</dt><dd>Feature card 04</dd></dl>
+   <div class="dl"><a href="cotech-web-seo-speed.jpg" download>JPG poster<small>226 KB</small></a><a href="cotech-web-seo-speed.gif" download>GIF<small>1.9 MB</small></a><a href="cotech-web-seo-speed.mp4" download>MP4<small>448 KB</small></a><a href="cotech-web-seo-speed.webm" download>WebM<small>946 KB</small></a></div></div></article><article class="card">
+  <div class="media"><video src="cotech-web-care-plan.mp4" poster="cotech-web-care-plan.jpg" autoplay muted loop playsinline preload="metadata"></video></div>
+  <div class="body"><div class="tag new">Feature card</div>
+   <h3>Website Care Plan</h3><p class="what">A monthly care dashboard: uptime, SSL, backups, security updates, edit hours used and the monthly report.</p><div class="cp"><div><small>WHAT WE SOLVE</small>After launch nobody owns hosting, security or backups until something breaks.</div><div><small>WHAT CHANGES</small>Hosting, SSL, daily backups, security updates, uptime monitoring and 2 hours of edits every month, with a monthly report.</div></div>
+   <dl><dt>File</dt><dd><code>images/cotech-web-care-plan.jpg</code></dd><dt>Used in</dt><dd>Feature card 05</dd></dl>
+   <div class="dl"><a href="cotech-web-care-plan.jpg" download>JPG poster<small>217 KB</small></a><a href="cotech-web-care-plan.gif" download>GIF<small>1.7 MB</small></a><a href="cotech-web-care-plan.mp4" download>MP4<small>440 KB</small></a><a href="cotech-web-care-plan.webm" download>WebM<small>975 KB</small></a></div></div></article></div></section>
+<section><div class="how"><h2>How to use them on the site</h2>
+<ol><li><b>Quickest option (stills):</b> copy the <code>.jpg</code> files into <code>/images</code>, overwriting the placeholders. No code changes are needed.</li>
+<li><b>Animated with no layout change:</b> change <code>.jpg</code> to <code>.gif</code> in the <code>&lt;img src&gt;</code>. GIFs are 0.7× resolution (648 px wide) to keep them light.</li>
+<li><b>Best quality and speed (recommended):</b> replace the <code>&lt;img&gt;</code> with a looping video. MP4/WebM files are about 0.4–1.2 MB, full resolution, and much smaller than the GIFs.</li></ol>
+<pre>&lt;video class="h-full w-full rounded-[14px] object-cover"
+       autoplay muted loop playsinline preload="metadata"
+       poster="./images/cotech-svc-lead.jpg"&gt;
+  &lt;source src="./images/cotech-svc-lead.webm" type="video/webm"&gt;
+  &lt;source src="./images/cotech-svc-lead.mp4"  type="video/mp4"&gt;
+&lt;/video&gt;</pre>
+<p class="note">Key content sits in the centre band of each frame, because the site crops these images to near-square in the carousel. All company names, people and figures shown are fictional examples. The process image slot “Discovery &amp; Planning” (process-1) fits <code>cotech-about-tall</code> (the Blueprint session) better than the CRM image it uses today.</p>
+</div></section></main></body></html>

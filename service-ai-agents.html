@@ -51,7 +51,7 @@ Head links
  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
  <link rel="stylesheet" href="./assets/main.css" />
- <link rel="stylesheet" href="./assets/cotech.css?v=float1">
+ <link rel="stylesheet" href="./assets/cotech.css?v=apnav4">
 </head>
  <body>
  <!-- =========================
@@ -93,9 +93,10 @@ Header
  <span>Services</span>
  </a>
  </li>
- <li class="nav-item relative cursor-pointer py-2.5">
+ <li class="nav-item relative cursor-pointer py-2.5 hidden" aria-hidden="true">
  <a
  href="./projects.html"
+ tabindex="-1"
  class="hover:border-stroke-2 text-tagline-1 text-secondary/60 hover:text-secondary flex items-center gap-1 rounded-full border border-transparent px-4 py-2 font-normal transition-all duration-200"
  >
  <span>Projects</span>
@@ -481,7 +482,7 @@ Header
  </ul>
 
  <!-- Column 3: Featured project -->
- <a href="./projects.html" class="flex w-full min-w-0 flex-1 self-stretch">
+ <a href="./projects.html" class="hidden flex w-full min-w-0 flex-1 self-stretch" aria-hidden="true" tabindex="-1">
  <figure
  class="group relative min-h-[280px] w-full flex-1 overflow-hidden rounded-[14px] lg:min-h-0"
  >
@@ -580,9 +581,10 @@ Mobile Menu
  >Services</a
  >
  </li>
- <li>
+ <li class="hidden" aria-hidden="true">
  <a
  href="./projects.html"
+ tabindex="-1"
  class="mobile-nav-link text-heading-6 text-secondary block transition-colors"
  >Projects</a
  >
@@ -733,7 +735,7 @@ Mobile Menu
 </aside>
 
 </header>
-  <main class="bg-background-13 cotech-svc-detail">
+  <main class="bg-background-13 cotech-svc-detail" data-svc-id="ai-agents">
  <section class="cotech-svc-detail-hero">
  <div class="cotech-svc-detail-hero-media" aria-hidden="true">
  <img src="./images/cotech-svc-ai.jpg" alt="" width="1600" height="900" />
@@ -783,6 +785,8 @@ Mobile Menu
  <div class="main-container">
  <div class="cotech-svc-detail-layout">
  <div class="cotech-svc-detail-main">
+
+ <figure class="cotech-svc-detail-rail-gif cotech-svc-detail-rail-gif--mobile" data-svc-media-mount></figure>
 
  <section id="overview" class="cotech-svc-detail-block">
  <div data-ns-animate data-delay="0.1" class="flex items-center justify-start"><div class="relative flex items-center justify-center gap-x-1 before:mr-2.5 before:block before:h-px before:w-11.5 before:bg-[linear-gradient(90deg,rgba(0,0,0,0)_0%,#000_100%)] before:opacity-50 before:content-[''] after:ml-2.5 after:block after:h-px after:w-11.5 after:bg-[linear-gradient(90deg,#000_0%,rgba(0,0,0,0)_100%)] after:opacity-50 after:content-['']"><span class="shrink-0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 17 16" fill="none" class="fill-primary-500 size-4.25"><path d="M8.33333 0L10.9083 5.21667L16.6667 6.05833L12.5 10.1167L13.4833 15.85L8.33333 13.1417L3.18333 15.85L4.16667 10.1167L0 6.05833L5.75833 5.21667L8.33333 0Z" /></svg></span><span class="font-inter-tight text-tagline-2 font-normal text-secondary uppercase">Overview</span></div></div>
@@ -990,6 +994,7 @@ Mobile Menu
  </div>
 
  <aside class="cotech-svc-detail-rail" aria-label="On this page">
+ <figure class="cotech-svc-detail-rail-gif" data-svc-media-mount></figure>
  <p class="cotech-svc-detail-rail-label">On this page</p>
  <nav>
  <ul>
@@ -1046,7 +1051,7 @@ Footer
             <ul>
             <li><a href="./index.html" class="footer-link-v2">Home</a></li>
             <li><a href="./services.html" class="footer-link-v2">Services</a></li>
-            <li><a href="./projects.html" class="footer-link-v2">Outcomes</a></li>
+            <li class="hidden" aria-hidden="true"><a href="./projects.html" tabindex="-1" class="footer-link-v2">Outcomes</a></li>
             <li><a href="./about.html" class="footer-link-v2">About</a></li>
             <li><a href="./contact.html" class="footer-link-v2">Contact</a></li>
           </ul>
@@ -1080,15 +1085,7 @@ Footer
             <span class="cotech-footer-col-chevron" aria-hidden="true"></span>
           </button>
           <div class="cotech-footer-col-panel" data-footer-panel>
-            <ul>
-            <li><a href="./services.html" class="footer-link-v2">Business Intelligence</a></li>
-            <li><a href="./service-lead-generation.html" class="footer-link-v2">Lead Generation</a></li>
-            <li><a href="./service-crm-automation.html" class="footer-link-v2">CRM Automation</a></li>
-            <li><a href="./service-ai-agents.html" class="footer-link-v2">AI Agents</a></li>
-            <li><a href="./service-business-automation.html" class="footer-link-v2">Business Automation</a></li>
-            <li><a href="./service-web-platforms.html" class="footer-link-v2">Web Platforms</a></li>
-            <li><a href="./service-digital-business-systems.html" class="footer-link-v2">Digital Business Systems</a></li>
-          </ul>
+            <ul data-cotech-services-nav data-cotech-services-nav-limit="6"></ul>
           </div>
         </div>
       </div>
@@ -1120,7 +1117,9 @@ Footer
   <script src="./vendor/swiper.min.js"></script>
   <script src="./vendor/custom-ease.min.js"></script>
   <script src="./vendor/morph-svg.min.js"></script>
-  <script src="./assets/main.js?v=phone1"></script>
+    <script src="./assets/cotech-services.js?v=svcs6"></script>
+  <script src="./assets/cotech-all-pages-nav.js?v=apnav4"></script>
+<script src="./assets/main.js?v=phone1"></script>
   <script>
     (function () {
       var items = document.querySelectorAll("[data-scroll-in], [data-zigzag]");

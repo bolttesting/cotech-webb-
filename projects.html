@@ -70,7 +70,7 @@ Head links
  rel="stylesheet"
  />
  <link rel="stylesheet" href="./assets/main.css" />
- <link rel="stylesheet" href="./assets/cotech.css?v=float1">
+ <link rel="stylesheet" href="./assets/cotech.css?v=apnav4">
 </head>
 
  <body>
@@ -501,7 +501,7 @@ Header
  </ul>
 
  <!-- Column 3: Featured project -->
- <a href="./projects.html" class="flex w-full min-w-0 flex-1 self-stretch">
+ <a href="./projects.html" class="hidden flex w-full min-w-0 flex-1 self-stretch" aria-hidden="true" tabindex="-1">
  <figure
  class="group relative min-h-[280px] w-full flex-1 overflow-hidden rounded-[14px] lg:min-h-0"
  >
@@ -889,47 +889,7 @@ Mobile Menu
  <h2 data-text-reveal data-delay="0.2">Systems we typically deliver</h2>
  <p data-text-reveal data-delay="0.3" class="max-w-[620px] mx-auto">Start with the bottleneck hurting performance today. Each outcome can stand alone or connect into a fuller operating system.</p>
  </div>
- <div class="cotech-projects-outcome-grid">
- <a href="./service-lead-generation.html" class="cotech-svc-card" data-scroll-in>
- <figure class="cotech-svc-card-media">
- <img src="./images/cotech-svc-lead.jpg" alt="" width="864" height="1152" loading="lazy" />
- </figure>
- <div class="cotech-svc-card-body">
- <div class="cotech-svc-card-meta"><span class="font-inter-tight text-tagline-1 font-normal">01</span></div>
- <div class="space-y-2">
- <h3 class="text-heading-5">Lead engine</h3>
- <p>A conversion-focused site or landing flow connected to forms, routing, tracking, and a CRM so marketing efforts create visible pipeline instead of scattered inbox messages.</p>
- </div>
- <span class="cotech-svc-card-cta">Explore service →</span>
- </div>
- </a>
- <a href="./service-crm-automation.html" class="cotech-svc-card" data-scroll-in>
- <figure class="cotech-svc-card-media">
- <img src="./images/cotech-svc-crm.jpg" alt="" width="864" height="1152" loading="lazy" />
- </figure>
- <div class="cotech-svc-card-body">
- <div class="cotech-svc-card-meta"><span class="font-inter-tight text-tagline-1 font-normal">02</span></div>
- <div class="space-y-2">
- <h3 class="text-heading-5">CRM pipeline</h3>
- <p>A clearer sales or ops pipeline with stage definitions, automations, reminders, ownership rules, and reporting that helps teams respond faster and miss fewer handoffs.</p>
- </div>
- <span class="cotech-svc-card-cta">Explore service →</span>
- </div>
- </a>
- <a href="./service-ai-agents.html" class="cotech-svc-card" data-scroll-in>
- <figure class="cotech-svc-card-media">
- <img src="./images/cotech-svc-ai.jpg" alt="" width="864" height="1152" loading="lazy" />
- </figure>
- <div class="cotech-svc-card-body">
- <div class="cotech-svc-card-meta"><span class="font-inter-tight text-tagline-1 font-normal">03</span></div>
- <div class="space-y-2">
- <h3 class="text-heading-5">AI agent</h3>
- <p>A narrowly scoped agent that supports qualification, research, drafting, retrieval, or repetitive internal workflows without pretending to replace the whole business.</p>
- </div>
- <span class="cotech-svc-card-cta">Explore service →</span>
- </div>
- </a>
- </div>
+ <div class="cotech-projects-outcome-grid cotech-svc-catalog-grid" data-cotech-services-catalog></div>
  </div>
  </section>
 
@@ -1055,15 +1015,7 @@ Footer
             <span class="cotech-footer-col-chevron" aria-hidden="true"></span>
           </button>
           <div class="cotech-footer-col-panel" data-footer-panel>
-            <ul>
-            <li><a href="./services.html" class="footer-link-v2">Business Intelligence</a></li>
-            <li><a href="./service-lead-generation.html" class="footer-link-v2">Lead Generation</a></li>
-            <li><a href="./service-crm-automation.html" class="footer-link-v2">CRM Automation</a></li>
-            <li><a href="./service-ai-agents.html" class="footer-link-v2">AI Agents</a></li>
-            <li><a href="./service-business-automation.html" class="footer-link-v2">Business Automation</a></li>
-            <li><a href="./service-web-platforms.html" class="footer-link-v2">Web Platforms</a></li>
-            <li><a href="./service-digital-business-systems.html" class="footer-link-v2">Digital Business Systems</a></li>
-          </ul>
+            <ul data-cotech-services-nav></ul>
           </div>
         </div>
       </div>
@@ -1095,6 +1047,8 @@ Footer
   <script src="./vendor/swiper.min.js"></script>
   <script src="./vendor/custom-ease.min.js"></script>
   <script src="./vendor/morph-svg.min.js"></script>
+  <script src="./assets/cotech-services.js?v=svcnav1"></script>
+  <script src="./assets/cotech-all-pages-nav.js?v=apnav4"></script>
   <script src="./assets/main.js?v=phone1"></script>
   <script>
     (function () {

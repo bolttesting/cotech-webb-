@@ -70,7 +70,7 @@ Head links
  rel="stylesheet"
  />
  <link rel="stylesheet" href="./assets/main.css" />
- <link rel="stylesheet" href="./assets/cotech.css?v=float1">
+ <link rel="stylesheet" href="./assets/cotech.css?v=apnav4">
 </head>
 
  <body>
@@ -113,9 +113,10 @@ Header
  <span>Services</span>
  </a>
  </li>
- <li class="nav-item relative cursor-pointer py-2.5">
+ <li class="nav-item relative cursor-pointer py-2.5 hidden" aria-hidden="true">
  <a
  href="./projects.html"
+ tabindex="-1"
  class="hover:border-stroke-2 text-tagline-1 text-secondary/60 hover:text-secondary flex items-center gap-1 rounded-full border border-transparent px-4 py-2 font-normal transition-all duration-200"
  >
  <span>Projects</span>
@@ -501,7 +502,7 @@ Header
  </ul>
 
  <!-- Column 3: Featured project -->
- <a href="./projects.html" class="flex w-full min-w-0 flex-1 self-stretch">
+ <a href="./projects.html" class="hidden flex w-full min-w-0 flex-1 self-stretch" aria-hidden="true" tabindex="-1">
  <figure
  class="group relative min-h-[280px] w-full flex-1 overflow-hidden rounded-[14px] lg:min-h-0"
  >
@@ -600,9 +601,10 @@ Mobile Menu
  >Services</a
  >
  </li>
- <li>
+ <li class="hidden" aria-hidden="true">
  <a
  href="./projects.html"
+ tabindex="-1"
  class="mobile-nav-link text-heading-6 text-secondary block transition-colors"
  >Projects</a
  >
@@ -815,7 +817,7 @@ Footer
             <ul>
             <li><a href="./index.html" class="footer-link-v2">Home</a></li>
             <li><a href="./services.html" class="footer-link-v2">Services</a></li>
-            <li><a href="./projects.html" class="footer-link-v2">Outcomes</a></li>
+            <li class="hidden" aria-hidden="true"><a href="./projects.html" tabindex="-1" class="footer-link-v2">Outcomes</a></li>
             <li><a href="./about.html" class="footer-link-v2">About</a></li>
             <li><a href="./contact.html" class="footer-link-v2">Contact</a></li>
           </ul>
@@ -849,15 +851,7 @@ Footer
             <span class="cotech-footer-col-chevron" aria-hidden="true"></span>
           </button>
           <div class="cotech-footer-col-panel" data-footer-panel>
-            <ul>
-            <li><a href="./services.html" class="footer-link-v2">Business Intelligence</a></li>
-            <li><a href="./service-lead-generation.html" class="footer-link-v2">Lead Generation</a></li>
-            <li><a href="./service-crm-automation.html" class="footer-link-v2">CRM Automation</a></li>
-            <li><a href="./service-ai-agents.html" class="footer-link-v2">AI Agents</a></li>
-            <li><a href="./service-business-automation.html" class="footer-link-v2">Business Automation</a></li>
-            <li><a href="./service-web-platforms.html" class="footer-link-v2">Web Platforms</a></li>
-            <li><a href="./service-digital-business-systems.html" class="footer-link-v2">Digital Business Systems</a></li>
-          </ul>
+            <ul data-cotech-services-nav data-cotech-services-nav-limit="6"></ul>
           </div>
         </div>
       </div>
@@ -889,6 +883,8 @@ Footer
   <script src="./vendor/swiper.min.js"></script>
   <script src="./vendor/custom-ease.min.js"></script>
   <script src="./vendor/morph-svg.min.js"></script>
+  <script src="./assets/cotech-services.js?v=svcs6"></script>
+  <script src="./assets/cotech-all-pages-nav.js?v=apnav4"></script>
   <script src="./assets/main.js?v=phone1"></script>
   <script>
     (function () {

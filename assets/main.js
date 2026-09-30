@@ -1,13 +1,30 @@
+/** Next.js loads this bundle after SSR; defer DOM mutation until React hydrates (see cotechRefreshMarketingPage). */
+function cotechIsNextApp() {
+	if (typeof globalThis.__NEXT_DATA__ !== "undefined") return true;
+	try {
+		return document.documentElement.getAttribute("data-cotech-next") === "1";
+	} catch (_e) {
+		return false;
+	}
+}
+var COTECH_DEFER_LEGACY_INIT = cotechIsNextApp();
+function cotechRunLegacyBoot(fn) {
+	if (COTECH_DEFER_LEGACY_INIT) return;
+	if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", fn);
+	else fn();
+}
 //#region src/js/utils/blog-filter.js
 var initBlogFilter = () => {
 	const roots = document.querySelectorAll("[data-filter-root]");
 	if (!roots.length) return;
 	roots.forEach((root) => {
+		if (root.getAttribute("data-filter-bound") === "1") return;
 		const desktopButtons = [...root.querySelectorAll("[data-tab-button]")];
 		const mobileButtons = [...root.querySelectorAll("[data-mobile-tab-button]")];
 		const items = [...root.querySelectorAll("[data-filter-item]")];
 		const activeBar = root.querySelector("[data-active-tab-bar]");
 		if (!desktopButtons.length && !mobileButtons.length || !items.length) return;
+		root.setAttribute("data-filter-bound", "1");
 		const getFilter = (button) => (button?.getAttribute("data-filter") || "all").trim().toLowerCase();
 		const moveActiveBar = (button) => {
 			if (!activeBar || !button) return;
@@ -52,8 +69,7 @@ var initBlogFilter = () => {
 		});
 	});
 };
-if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initBlogFilter);
-else initBlogFilter();
+cotechRunLegacyBoot(initBlogFilter);
 //#endregion
 //#region src/js/utils/header.js
 var headerAnimation = { headerOne() {
@@ -68,11 +84,12 @@ var headerAnimation = { headerOne() {
 if (globalThis.window !== void 0) headerAnimation.headerOne();
 //#endregion
 //#region src/js/utils/marquee.js
-document.addEventListener("DOMContentLoaded", () => {
+function initMarquees() {
 	if (typeof InfiniteMarquee === "undefined") return;
-	if (document.querySelector(".logos-marquee-container")) new InfiniteMarquee({
+	var logosEl = document.querySelector(".logos-marquee-container");
+	if (logosEl && !logosEl.classList.contains("horizontal-marquee")) new InfiniteMarquee({
 		element: ".logos-marquee-container",
-		speed: 4e4,
+		speed: 8e4,
 		smoothEdges: false,
 		direction: "left",
 		spaceBetween: "0px",
@@ -80,10 +97,11 @@ document.addEventListener("DOMContentLoaded", () => {
 		duplicateInnerElements: false,
 		mobileSettings: {
 			direction: "left",
-			speed: 5e4
+			speed: 1e5
 		}
 	});
-	if (document.querySelector(".cards-marquee-container")) new InfiniteMarquee({
+	var cardsEl = document.querySelector(".cards-marquee-container");
+	if (cardsEl && !cardsEl.classList.contains("horizontal-marquee")) new InfiniteMarquee({
 		element: ".cards-marquee-container",
 		speed: 5e4,
 		smoothEdges: true,
@@ -96,7 +114,8 @@ document.addEventListener("DOMContentLoaded", () => {
 			speed: 6e4
 		}
 	});
-});
+}
+cotechRunLegacyBoot(initMarquees);
 //#endregion
 //#region src/js/utils/mobile-menu.js
 var BACKDROP_DURATION = .45;
@@ -371,8 +390,10 @@ var MobileNavMenu = class {
 		this.activeMega = null;
 	}
 };
-var mobileNavMenu = new MobileNavMenu();
-if (typeof window !== "undefined") window.mobileNavMenu = mobileNavMenu;
+if (!COTECH_DEFER_LEGACY_INIT) {
+	var mobileNavMenu = new MobileNavMenu();
+	if (typeof window !== "undefined") window.mobileNavMenu = mobileNavMenu;
+}
 //#endregion
 //#region src/js/utils/navigation-menu.js
 /**
@@ -383,17 +404,29 @@ var NavigationMenu = class {
 	menuTimeout = null;
 	isMouseInHeader = false;
 	isMouseInMenu = false;
+	documentBound = false;
 	constructor() {
 		this.init();
 	}
 	init() {
 		this.bindEvents();
 	}
-	bindEvents() {
+	bindNavItems() {
 		document.querySelectorAll(".nav-item[data-menu]").forEach((item) => {
+			if (item.getAttribute("data-nav-menu-bound") === "1") return;
+			item.setAttribute("data-nav-menu-bound", "1");
 			const menuId = item.dataset.menu;
 			const menu = document.getElementById(menuId);
 			if (!menu) return;
+			const trigger = item.querySelector("a[href], button");
+			if (trigger) {
+				trigger.addEventListener("click", (e) => {
+					const href = (trigger.getAttribute("href") || "").trim();
+					if (href && href !== "#") return;
+					e.preventDefault();
+					this.toggleMenu(menuId);
+				});
+			}
 			item.addEventListener("mouseenter", (e) => {
 				this.showMenu(item, menu);
 			});
@@ -410,6 +443,11 @@ var NavigationMenu = class {
 				if (!relatedTarget || !item.contains(relatedTarget)) this.scheduleHideMenu();
 			});
 		});
+	}
+	bindEvents() {
+		this.bindNavItems();
+		if (this.documentBound) return;
+		this.documentBound = true;
 		document.addEventListener("click", (e) => {
 			const target = e.target;
 			if (target && typeof target.closest === "function") {
@@ -534,9 +572,11 @@ var NavigationMenu = class {
 		};
 	}
 };
-document.addEventListener("DOMContentLoaded", () => {
-	globalThis.navigationMenu = new NavigationMenu();
-});
+function initNavigationMenu() {
+	if (!globalThis.navigationMenu) globalThis.navigationMenu = new NavigationMenu();
+	else globalThis.navigationMenu.bindNavItems();
+}
+cotechRunLegacyBoot(() => initNavigationMenu());
 //#endregion
 //#region src/js/utils/sidebar.js
 var sidebarAnimation = {
@@ -714,12 +754,13 @@ var initTabs = () => {
 		});
 	});
 };
-if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initTabs);
-else initTabs();
+cotechRunLegacyBoot(initTabs);
 //#endregion
 //#region src/js/animation/avatar.js
 var avatar = { init() {
 	document.querySelectorAll("[data-ns-avatar]").forEach((el) => {
+		if (el.dataset.nsAvatarBound === "1") return;
+		el.dataset.nsAvatarBound = "1";
 		const delay = el.dataset.avatarDelay ? Number.parseFloat(el.dataset.avatarDelay) : 0;
 		const direction = el.dataset.avatarDirection || "left";
 		const scale = el.dataset.avatarScale ? Number.parseFloat(el.dataset.avatarScale) : 0;
@@ -763,11 +804,24 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 //#endregion
 //#region src/js/animation/blog-swiper.js
-document.addEventListener("DOMContentLoaded", () => {
+var blogArticleSwiperInstances = [];
+function destroyBlogArticleSwipers() {
+	blogArticleSwiperInstances.forEach((instance) => {
+		try {
+			instance.destroy(true, true);
+		} catch (_e) {}
+	});
+	blogArticleSwiperInstances = [];
+	document.querySelectorAll(".blog-article-swiper[data-blog-swiper-bound]").forEach((el) => {
+		el.removeAttribute("data-blog-swiper-bound");
+	});
+}
+function initBlogArticleSwipers() {
 	if (typeof Swiper === "undefined") return;
-	const sliders = document.querySelectorAll(".blog-article-swiper");
+	const sliders = document.querySelectorAll(".blog-article-swiper:not([data-blog-swiper-bound])");
 	if (!sliders.length) return;
 	sliders.forEach((slider) => {
+		slider.setAttribute("data-blog-swiper-bound", "1");
 		const pagination = slider.querySelector(".pagination-bullets") || slider.parentElement?.querySelector(".pagination-bullets");
 		const swiper = new Swiper(slider, {
 			slidesPerView: 1,
@@ -788,6 +842,7 @@ document.addEventListener("DOMContentLoaded", () => {
 				requestAnimationFrame(() => instance.update());
 			} }
 		});
+		blogArticleSwiperInstances.push(swiper);
 		slider.addEventListener("mouseenter", () => {
 			if (swiper.autoplay) swiper.autoplay.pause();
 		});
@@ -795,13 +850,16 @@ document.addEventListener("DOMContentLoaded", () => {
 			if (swiper.autoplay) swiper.autoplay.resume();
 		});
 	});
-});
+}
+cotechRunLegacyBoot(initBlogArticleSwipers);
 //#endregion
 //#region src/js/animation/border-expand.js
 var borderExpand = { init() {
 	if (typeof gsap === "undefined" || typeof ScrollTrigger === "undefined") return;
 	gsap.registerPlugin(ScrollTrigger);
 	document.querySelectorAll("[data-border-expand]").forEach((element) => {
+		if (element.dataset.borderExpandBound === "1") return;
+		element.dataset.borderExpandBound = "1";
 		const delay = element.dataset.delay ? Number.parseFloat(element.dataset.delay) : 0;
 		const top = element.dataset.top || "top 100%";
 		const markerId = element.dataset.markerId || false;
@@ -882,8 +940,7 @@ var buttonV9 = { init() {
 		});
 	});
 } };
-if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", () => buttonV9.init());
-else buttonV9.init();
+cotechRunLegacyBoot(() => buttonV9.init());
 //#endregion
 //#region src/js/animation/card-flip.js
 var initCardFlip = (scope = document) => {
@@ -892,6 +949,8 @@ var initCardFlip = (scope = document) => {
 	if (!cards.length) return;
 	const isTouch = "ontouchstart" in window;
 	cards.forEach((card) => {
+		if (card.getAttribute("data-card-flip-bound") === "1") return;
+		card.setAttribute("data-card-flip-bound", "1");
 		const front = card.querySelector("[data-card-flip-front]");
 		const back = card.querySelector("[data-card-flip-back]");
 		if (!front || !back) return;
@@ -931,21 +990,49 @@ var initCardFlip = (scope = document) => {
 		});
 	});
 };
-if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", () => initCardFlip());
-else initCardFlip();
+cotechRunLegacyBoot(() => initCardFlip());
 //#endregion
 //#region src/js/animation/card-rotating-on-scroll-v2.js
+var cardRotatingScrollState = {
+	resizeHandler: null,
+	wheelTween: null
+};
+var destroyCardRotatingOnScroll = () => {
+	if (cardRotatingScrollState.resizeHandler) {
+		window.removeEventListener("resize", cardRotatingScrollState.resizeHandler);
+		cardRotatingScrollState.resizeHandler = null;
+	}
+	if (cardRotatingScrollState.wheelTween) {
+		cardRotatingScrollState.wheelTween.kill();
+		cardRotatingScrollState.wheelTween = null;
+	}
+	document.querySelectorAll("[data-rotating-wheel]").forEach((wheel) => {
+		wheel.removeAttribute("data-rotating-wheel-bound");
+		if (typeof gsap !== "undefined") gsap.killTweensOf(wheel);
+	});
+	if (typeof gsap !== "undefined") gsap.utils.toArray("[data-rotating-card]").forEach((card) => gsap.killTweensOf(card));
+};
 var initCardRotatingOnScroll = () => {
 	if (typeof gsap === "undefined") return;
 	const wheel = document.querySelector("[data-rotating-wheel]");
 	const cards = gsap.utils.toArray("[data-rotating-card]");
-	if (!wheel || cards.length === 0) return;
+	if (!wheel || cards.length === 0) {
+		destroyCardRotatingOnScroll();
+		return;
+	}
+	if (wheel.getAttribute("data-rotating-wheel-bound") === "1") {
+		cardRotatingScrollState.resizeHandler?.();
+		return;
+	}
+	destroyCardRotatingOnScroll();
+	wheel.setAttribute("data-rotating-wheel-bound", "1");
 	function setup() {
 		const vw = window.innerWidth;
 		const isSm = vw < 640;
 		const isMd = vw < 1024;
 		const isLg = vw < 1280;
 		const radius = wheel.offsetWidth / 2;
+		if (!radius) return;
 		const center = radius;
 		const slice = 360 / cards.length;
 		const DEG2RAD = Math.PI / 180;
@@ -964,16 +1051,23 @@ var initCardRotatingOnScroll = () => {
 			yPercent: -50
 		});
 	}
+	cardRotatingScrollState.resizeHandler = setup;
 	setup();
+	if (!wheel.offsetWidth) {
+		window.requestAnimationFrame(() => {
+			setup();
+			if (!wheel.offsetWidth) window.setTimeout(setup, 120);
+		});
+	}
 	window.addEventListener("resize", setup);
-	gsap.to(wheel, {
+	cardRotatingScrollState.wheelTween = gsap.to(wheel, {
 		rotation: -360,
 		ease: "none",
 		duration: Math.max(cards.length * 4, 16),
 		repeat: -1
 	});
 };
-document.addEventListener("DOMContentLoaded", initCardRotatingOnScroll);
+cotechRunLegacyBoot(initCardRotatingOnScroll);
 //#endregion
 //#region src/js/animation/circular-text-animation.js
 /**
@@ -995,9 +1089,11 @@ var initCircularText = (scope = document) => {
 	const roots = scope.querySelectorAll("[data-circular-text]");
 	if (!roots.length) return;
 	roots.forEach((root) => {
+		if (root.getAttribute("data-circular-text-bound") === "1") return;
 		const content = root.querySelector("[data-circular-text-content]");
 		const ring = root.querySelector("[data-circular-text-ring]");
 		if (!content || !ring) return;
+		root.setAttribute("data-circular-text-bound", "1");
 		const duration = Number.parseFloat(root.dataset.duration ?? "20") || 20;
 		const radius = Number.parseFloat(root.dataset.radius ?? "64") || 64;
 		const chars = new SplitText(content, {
@@ -1035,14 +1131,15 @@ var startCircularText = () => {
 	if (document.fonts) document.fonts.ready.then(() => initCircularText());
 	else initCircularText();
 };
-if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", startCircularText);
-else startCircularText();
+cotechRunLegacyBoot(startCircularText);
 //#endregion
 //#region src/js/animation/counter-number-on-scroll.js
 var initCounterNumberOnScroll = () => {
 	if (typeof gsap === "undefined" || typeof ScrollTrigger === "undefined") return;
 	gsap.registerPlugin(ScrollTrigger);
 	document.querySelectorAll("[data-counter-trigger]").forEach((counterTrigger) => {
+		if (counterTrigger.dataset.counterBound === "1") return;
+		counterTrigger.dataset.counterBound = "1";
 		const counterFlow = counterTrigger.querySelector("[data-counter-number]");
 		const counterValue = Number(counterTrigger.dataset.counterValue) || 0;
 		const counterDuration = Number(counterTrigger.dataset.counterDuration) || 1.8;
@@ -1077,7 +1174,7 @@ var initCounterNumberOnScroll = () => {
 		});
 	});
 };
-document.addEventListener("DOMContentLoaded", initCounterNumberOnScroll);
+cotechRunLegacyBoot(initCounterNumberOnScroll);
 //#endregion
 //#region src/js/animation/faq-accordion.js
 var initFaqAccordion = () => {
@@ -1199,6 +1296,8 @@ var initFaqAccordion = () => {
 		openItem(item, action, content, icon, text);
 	};
 	accordions.forEach((accordion) => {
+		if (accordion.dataset.faqAccordionBound === "1") return;
+		accordion.dataset.faqAccordionBound = "1";
 		const items = [...accordion.querySelectorAll("[data-faq-item]")];
 		items.forEach((item) => {
 			const { button: action, content, icon, text } = getParts(item);
@@ -1217,10 +1316,9 @@ var initFaqAccordion = () => {
 		});
 	});
 };
-if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", () => {
+cotechRunLegacyBoot(() => {
 	document.fonts.ready.then(initFaqAccordion);
 });
-else document.fonts.ready.then(initFaqAccordion);
 //#endregion
 //#region src/js/animation/magnetic.js
 /**
@@ -1265,13 +1363,14 @@ var initMagnetic = (scope = document) => {
 		area.addEventListener("mouseleave", onLeave);
 	});
 };
-if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", () => initMagnetic());
-else initMagnetic();
+cotechRunLegacyBoot(() => initMagnetic());
 //#endregion
 //#region src/js/animation/process-expand.js
 var initProcessExpand = () => {
 	const root = document.querySelector("[data-process-expand]");
 	if (!root) return;
+	if (root.getAttribute("data-process-expand-bound") === "1") return;
+	root.setAttribute("data-process-expand-bound", "1");
 	const cards = root.querySelectorAll("[data-process-expand-card]");
 	if (!cards.length) return;
 	const isDesktop = () => window.matchMedia("(min-width: 1024px)").matches;
@@ -1299,8 +1398,7 @@ var initProcessExpand = () => {
 		});
 	});
 };
-if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initProcessExpand);
-else initProcessExpand();
+cotechRunLegacyBoot(initProcessExpand);
 //#endregion
 //#region src/js/animation/reveal-animation.js
 var animation = { init() {
@@ -1309,6 +1407,8 @@ var animation = { init() {
 	const elements = document.querySelectorAll("[data-ns-animate]");
 	const Springer = window.Springer?.default;
 	elements.forEach((elem) => {
+		if (elem.getAttribute("data-ns-animate-bound") === "1") return;
+		elem.setAttribute("data-ns-animate-bound", "1");
 		const duration = elem.getAttribute("data-duration") ? parseFloat(elem.getAttribute("data-duration")) : .6;
 		const blur = elem.getAttribute("data-blur") ? parseFloat(elem.getAttribute("data-blur")) : 0;
 		const delay = elem.getAttribute("data-delay") ? parseFloat(elem.getAttribute("data-delay")) : 0;
@@ -1367,9 +1467,7 @@ var animation = { init() {
 		else gsap.from(elem, animationProps);
 	});
 } };
-document.addEventListener("DOMContentLoaded", () => {
-	animation.init();
-});
+cotechRunLegacyBoot(() => animation.init());
 //#endregion
 //#region src/js/animation/spotlight-cards.js
 var TILT_MAX = 9;
@@ -1379,6 +1477,8 @@ var initSpotlightCards = (scope = document) => {
 	if (!roots.length) return;
 	if ("ontouchstart" in window) return;
 	roots.forEach((root) => {
+		if (root.getAttribute("data-spotlight-cards-bound") === "1") return;
+		root.setAttribute("data-spotlight-cards-bound", "1");
 		const cards = root.querySelectorAll("[data-spotlight-card]");
 		if (!cards.length) return;
 		cards.forEach((card) => {
@@ -1438,8 +1538,7 @@ var initSpotlightCards = (scope = document) => {
 		});
 	});
 };
-if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", () => initSpotlightCards());
-else initSpotlightCards();
+cotechRunLegacyBoot(() => initSpotlightCards());
 //#endregion
 //#region src/js/animation/squad-cards.js
 var initSquadCards = (scope = document) => {
@@ -1448,6 +1547,8 @@ var initSquadCards = (scope = document) => {
 	if (!roots.length) return;
 	if ("ontouchstart" in window) return;
 	roots.forEach((root) => {
+		if (root.getAttribute("data-squad-cards-bound") === "1") return;
+		root.setAttribute("data-squad-cards-bound", "1");
 		const cards = root.querySelectorAll("[data-squad-card]");
 		if (!cards.length) return;
 		cards.forEach((card) => {
@@ -1490,8 +1591,7 @@ var initSquadCards = (scope = document) => {
 		});
 	});
 };
-if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", () => initSquadCards());
-else initSquadCards();
+cotechRunLegacyBoot(() => initSquadCards());
 //#endregion
 //#region src/js/animation/stat-cards.js
 var initStatCards = (scope = document) => {
@@ -1501,6 +1601,8 @@ var initStatCards = (scope = document) => {
 	const roots = scope.querySelectorAll("[data-stat-cards]");
 	if (!roots.length) return;
 	roots.forEach((root) => {
+		if (root.getAttribute("data-stat-cards-bound") === "1") return;
+		root.setAttribute("data-stat-cards-bound", "1");
 		const cards = root.querySelectorAll("[data-stat-card]");
 		if (!cards.length) return;
 		gsap.set(cards, {
@@ -1523,8 +1625,7 @@ var initStatCards = (scope = document) => {
 		});
 	});
 };
-if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", () => initStatCards());
-else initStatCards();
+cotechRunLegacyBoot(() => initStatCards());
 //#endregion
 //#region src/js/animation/testimonial-cards.js
 var initTestimonialCards = (scope = document) => {
@@ -1534,6 +1635,8 @@ var initTestimonialCards = (scope = document) => {
 	if (!roots.length) return;
 	const isTouch = "ontouchstart" in window;
 	roots.forEach((root) => {
+		if (root.getAttribute("data-testimonial-cards-bound") === "1") return;
+		root.setAttribute("data-testimonial-cards-bound", "1");
 		const cols = gsap.utils.toArray(root.querySelectorAll("[data-testimonial-col]"));
 		if (!cols.length) return;
 		const cards = gsap.utils.toArray(root.querySelectorAll("[data-testimonial-card]"));
@@ -1651,8 +1754,7 @@ var initTestimonialCards = (scope = document) => {
 		});
 	});
 };
-if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", () => initTestimonialCards());
-else initTestimonialCards();
+cotechRunLegacyBoot(() => initTestimonialCards());
 //#endregion
 //#region src/js/animation/text-reveal.js
 function initMaskedTextReveal() {
@@ -1662,6 +1764,8 @@ function initMaskedTextReveal() {
 	gsap.registerPlugin(SplitText, ScrollTrigger, CustomEase);
 	CustomEase.create("text-reveal-ease", "0.34, 1.42, 0.64, 1");
 	headings.forEach((heading) => {
+		if (heading.dataset.textRevealBound === "1") return;
+		heading.dataset.textRevealBound = "1";
 		SplitText.create(heading, {
 			type: "lines, words, chars",
 			mask: "lines",
@@ -1691,11 +1795,13 @@ function initMaskedTextReveal() {
 		});
 	});
 }
-document.addEventListener("DOMContentLoaded", () => {
+cotechRunLegacyBoot(() => {
 	document.fonts.ready.then(initMaskedTextReveal);
 });
 //#endregion
 //#region src/js/footer-accordion.js
+var footerAccordionMq = null;
+var footerAccordionMqHandler = null;
 var initFooterAccordion = () => {
 	const cols = document.querySelectorAll("[data-footer-accordion]");
 	if (!cols.length) return;
@@ -1715,7 +1821,8 @@ var initFooterAccordion = () => {
 	};
 	cols.forEach((col) => {
 		const toggle = col.querySelector("[data-footer-toggle]");
-		if (!toggle) return;
+		if (!toggle || toggle.getAttribute("data-footer-bound") === "1") return;
+		toggle.setAttribute("data-footer-bound", "1");
 		toggle.addEventListener("click", () => {
 			if (mq.matches) return;
 			const open = !col.classList.contains("is-open");
@@ -1725,11 +1832,18 @@ var initFooterAccordion = () => {
 		});
 	});
 	setDesktopState();
-	if (typeof mq.addEventListener === "function") mq.addEventListener("change", setDesktopState);
-	else if (typeof mq.addListener === "function") mq.addListener(setDesktopState);
+	if (footerAccordionMq !== mq) {
+		if (footerAccordionMq && footerAccordionMqHandler) {
+			if (typeof footerAccordionMq.removeEventListener === "function") footerAccordionMq.removeEventListener("change", footerAccordionMqHandler);
+			else if (typeof footerAccordionMq.removeListener === "function") footerAccordionMq.removeListener(footerAccordionMqHandler);
+		}
+		footerAccordionMq = mq;
+		footerAccordionMqHandler = setDesktopState;
+		if (typeof mq.addEventListener === "function") mq.addEventListener("change", setDesktopState);
+		else if (typeof mq.addListener === "function") mq.addListener(setDesktopState);
+	}
 };
-if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initFooterAccordion);
-else initFooterAccordion();
+cotechRunLegacyBoot(initFooterAccordion);
 //#endregion
 
 //#region cotech float help + scroll top
@@ -1830,6 +1944,46 @@ var initCotechFloatWidgets = () => {
 		}
 	});
 };
-if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initCotechFloatWidgets);
-else initCotechFloatWidgets();
+cotechRunLegacyBoot(initCotechFloatWidgets);
+//#endregion
+
+//#region cotech-next-marketing-refresh
+function cotechEnsureMobileNav() {
+	if (globalThis.mobileNavMenu || typeof MobileNavMenu === "undefined") return;
+	globalThis.mobileNavMenu = new MobileNavMenu();
+}
+var cotechRefreshMarketingPage = () => {
+	initNavigationMenu();
+	cotechEnsureMobileNav();
+	if (typeof initBlogFilter === "function") initBlogFilter();
+	if (typeof destroyBlogArticleSwipers === "function") destroyBlogArticleSwipers();
+	if (typeof initBlogArticleSwipers === "function") initBlogArticleSwipers();
+	if (typeof initMarquees === "function") initMarquees();
+	if (typeof buttonV9 !== "undefined" && buttonV9.init) buttonV9.init();
+	if (typeof initTabs === "function") initTabs();
+	if (typeof animation !== "undefined" && animation.init) animation.init();
+	if (typeof borderExpand !== "undefined" && borderExpand.init) borderExpand.init();
+	if (typeof initCounterNumberOnScroll === "function") initCounterNumberOnScroll();
+	if (typeof avatar !== "undefined" && avatar.init) avatar.init();
+	if (typeof initCardRotatingOnScroll === "function") initCardRotatingOnScroll();
+	if (typeof initCardFlip === "function") initCardFlip(document);
+	if (typeof initSpotlightCards === "function") initSpotlightCards(document);
+	if (typeof initSquadCards === "function") initSquadCards(document);
+	if (typeof initStatCards === "function") initStatCards(document);
+	if (typeof initTestimonialCards === "function") initTestimonialCards(document);
+	if (typeof initProcessExpand === "function") initProcessExpand();
+	if (typeof startCircularText === "function") startCircularText();
+	if (typeof initMagnetic === "function") initMagnetic(document);
+	if (typeof initFooterAccordion === "function") initFooterAccordion();
+	if (typeof initCotechFloatWidgets === "function") initCotechFloatWidgets();
+	const runAfterFonts = () => {
+		if (typeof initMaskedTextReveal === "function") initMaskedTextReveal();
+		if (typeof initFaqAccordion === "function") initFaqAccordion();
+	};
+	if (document.fonts?.ready) document.fonts.ready.then(runAfterFonts);
+	else runAfterFonts();
+	globalThis.cotechRefreshAllPagesNav?.();
+	globalThis.cotechRefreshAboutSections?.();
+};
+globalThis.cotechRefreshMarketingPage = cotechRefreshMarketingPage;
 //#endregion

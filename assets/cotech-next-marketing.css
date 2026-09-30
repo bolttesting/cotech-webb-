@@ -1,0 +1,26 @@
+/**
+ * Next.js: scripts load after first paint — avoid invisible content during hydration
+ * and after client navigations (before GSAP binds new nodes).
+ */
+html:not(.cotech-js-ready) .header-scroll.opacity-0,
+html:not(.cotech-js-ready) [data-ns-animate].opacity-0 {
+  opacity: 1 !important;
+}
+
+html.cotech-js-ready [data-ns-animate].opacity-0:not([data-ns-animate-bound="1"]) {
+  opacity: 1 !important;
+  filter: none !important;
+}
+
+html:not(.cotech-js-ready) main,
+html.cotech-js-ready main {
+  opacity: 1;
+}
+
+html.cotech-js-ready #all-pages-mega-menu.active,
+html.cotech-js-ready .mega-menu.active,
+html.cotech-js-ready .dropdown-menu.active {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  visibility: visible !important;
+}

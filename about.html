@@ -70,7 +70,7 @@ Head links
  rel="stylesheet"
  />
  <link rel="stylesheet" href="./assets/main.css" />
- <link rel="stylesheet" href="./assets/cotech.css?v=float1">
+ <link rel="stylesheet" href="./assets/cotech.css?v=apnav4">
 </head>
 
  <body>
@@ -113,9 +113,10 @@ Header
  <span>Services</span>
  </a>
  </li>
- <li class="nav-item relative cursor-pointer py-2.5">
+ <li class="nav-item relative cursor-pointer py-2.5 hidden" aria-hidden="true">
  <a
  href="./projects.html"
+ tabindex="-1"
  class="hover:border-stroke-2 text-tagline-1 text-secondary/60 hover:text-secondary flex items-center gap-1 rounded-full border border-transparent px-4 py-2 font-normal transition-all duration-200"
  >
  <span>Projects</span>
@@ -501,7 +502,7 @@ Header
  </ul>
 
  <!-- Column 3: Featured project -->
- <a href="./projects.html" class="flex w-full min-w-0 flex-1 self-stretch">
+ <a href="./projects.html" class="hidden flex w-full min-w-0 flex-1 self-stretch" aria-hidden="true" tabindex="-1">
  <figure
  class="group relative min-h-[280px] w-full flex-1 overflow-hidden rounded-[14px] lg:min-h-0"
  >
@@ -600,9 +601,10 @@ Mobile Menu
  >Services</a
  >
  </li>
- <li>
+ <li class="hidden" aria-hidden="true">
  <a
  href="./projects.html"
+ tabindex="-1"
  class="mobile-nav-link text-heading-6 text-secondary block transition-colors"
  >Projects</a
  >
@@ -1252,7 +1254,7 @@ Footer
             <ul>
             <li><a href="./index.html" class="footer-link-v2">Home</a></li>
             <li><a href="./services.html" class="footer-link-v2">Services</a></li>
-            <li><a href="./projects.html" class="footer-link-v2">Outcomes</a></li>
+            <li class="hidden" aria-hidden="true"><a href="./projects.html" tabindex="-1" class="footer-link-v2">Outcomes</a></li>
             <li><a href="./about.html" class="footer-link-v2">About</a></li>
             <li><a href="./contact.html" class="footer-link-v2">Contact</a></li>
           </ul>
@@ -1286,15 +1288,7 @@ Footer
             <span class="cotech-footer-col-chevron" aria-hidden="true"></span>
           </button>
           <div class="cotech-footer-col-panel" data-footer-panel>
-            <ul>
-            <li><a href="./services.html" class="footer-link-v2">Business Intelligence</a></li>
-            <li><a href="./service-lead-generation.html" class="footer-link-v2">Lead Generation</a></li>
-            <li><a href="./service-crm-automation.html" class="footer-link-v2">CRM Automation</a></li>
-            <li><a href="./service-ai-agents.html" class="footer-link-v2">AI Agents</a></li>
-            <li><a href="./service-business-automation.html" class="footer-link-v2">Business Automation</a></li>
-            <li><a href="./service-web-platforms.html" class="footer-link-v2">Web Platforms</a></li>
-            <li><a href="./service-digital-business-systems.html" class="footer-link-v2">Digital Business Systems</a></li>
-          </ul>
+            <ul data-cotech-services-nav data-cotech-services-nav-limit="6"></ul>
           </div>
         </div>
       </div>
@@ -1326,6 +1320,8 @@ Footer
   <script src="./vendor/swiper.min.js"></script>
   <script src="./vendor/custom-ease.min.js"></script>
   <script src="./vendor/morph-svg.min.js"></script>
+  <script src="./assets/cotech-services.js?v=svcs6"></script>
+  <script src="./assets/cotech-all-pages-nav.js?v=apnav4"></script>
   <script src="./assets/main.js?v=phone1"></script>
   <script>
     (function () {
@@ -1451,25 +1447,9 @@ Footer
       if (!showCounter && counterEl) counterEl.hidden = true;
       if (!showProgress && progressEl && progressEl.parentElement) progressEl.parentElement.hidden = true;
 
-      if (reduce) return;
-
       var n = cards.length;
-      // Full viewport stage — wheel snap advances cards inside it
-      root.style.height = "100vh";
-      root.style.height = "100dvh";
-
-      var index = 0;
-      var current = 0;
-      var target = 0;
-      var raf = 0;
-      var lastTime = 0;
-      var locked = false;
-      var lockTimer = 0;
-      var touching = false;
-      var touchY = 0;
-      var active = false;
-      var wheelAcc = 0;
-      var entering = false;
+      var scrollSteps = Math.max(1, n - 1);
+      var scrollStepVh = window.innerWidth <= 640 ? 64 : 72;
 
       function pad(i) {
         return String(i + 1).padStart(2, "0");
@@ -1483,78 +1463,45 @@ Footer
         return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
       }
 
-      function getLenis() {
-        return globalThis.lenis || null;
+      function setStackHeight() {
+        root.style.setProperty("--zs-scroll-steps", String(scrollSteps));
+        root.style.setProperty("--zs-scroll-step", scrollStepVh + "vh");
+        root.style.height =
+          "calc(100dvh + " + scrollSteps + " * " + scrollStepVh + "vh)";
       }
 
-      function sectionTop() {
-        return root.getBoundingClientRect().top + (window.scrollY || window.pageYOffset || 0);
+      var current = 0;
+      var target = 0;
+      var raf = 0;
+      var lastTime = 0;
+
+      function pinOffsetPx() {
+        var pin = root.querySelector(".cotech-zoom-stack-pin");
+        if (!pin) return 0;
+        var top = getComputedStyle(pin).top;
+        var val = parseFloat(top) || 0;
+        if (top.indexOf("rem") !== -1) {
+          val *= parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
+        }
+        return val;
       }
 
-      function snapToSection(done, immediate) {
-        var y = sectionTop();
-        var lenis = getLenis();
-        var finished = false;
-        function finish() {
-          if (finished) return;
-          finished = true;
-          entering = false;
-          if (typeof done === "function") done();
-        }
-        entering = true;
-        if (immediate) {
-          if (lenis && typeof lenis.scrollTo === "function") {
-            try {
-              lenis.scrollTo(y, { immediate: true });
-            } catch (err) {
-              window.scrollTo(0, y);
-            }
-          } else {
-            window.scrollTo(0, y);
-          }
-          // next frame so layout settles before releasing
-          requestAnimationFrame(function () {
-            requestAnimationFrame(finish);
-          });
-          return;
-        }
-        if (lenis && typeof lenis.scrollTo === "function") {
-          if (typeof lenis.start === "function") lenis.start();
-          try {
-            lenis.scrollTo(y, {
-              duration: 0.55,
-              onComplete: finish,
-            });
-          } catch (err) {
-            lenis.scrollTo(y, { duration: 0.55 });
-          }
-          setTimeout(finish, 680);
-        } else {
-          window.scrollTo({ top: y, behavior: "smooth" });
-          setTimeout(finish, 640);
-        }
-      }
-
-      function setCard(i, animate) {
-        i = Math.max(0, Math.min(n - 1, i));
-        index = i;
-        target = i;
-        if (!animate) {
-          current = i;
-          apply(current);
-          return;
-        }
-        if (!raf) {
-          lastTime = 0;
-          raf = requestAnimationFrame(tick);
-        }
+      function scrollTargetIndex() {
+        var vh = window.innerHeight || document.documentElement.clientHeight;
+        var pinPx = pinOffsetPx();
+        var range = Math.max(1, root.offsetHeight - vh + pinPx);
+        var scrollY = window.scrollY || document.documentElement.scrollTop || 0;
+        var y = scrollY + pinPx - root.offsetTop;
+        y = Math.min(range, Math.max(0, y));
+        if (n <= 1) return 0;
+        return (y / range) * (n - 1);
       }
 
       function apply(value) {
         var activeIdx = Math.round(Math.min(n - 1, Math.max(0, value)));
         if (currentEl) currentEl.textContent = pad(activeIdx);
         if (progressEl) {
-          var pct = n <= 1 ? 100 : (activeIdx / (n - 1)) * 100;
+          var pct = n <= 1 ? 100 : (value / (n - 1)) * 100;
           progressEl.style.width = Math.min(100, Math.max(0, pct)) + "%";
         }
 
@@ -1624,241 +1571,38 @@ Footer
         }
       }
 
-      function goTo(next) {
-        next = Math.max(0, Math.min(n - 1, next));
-        if (next === index && Math.abs(target - next) < 0.01) return false;
-        index = next;
-        target = next;
+      function ensureTick() {
         if (!raf) {
           lastTime = 0;
           raf = requestAnimationFrame(tick);
         }
-        return true;
-      }
-
-      function lockBriefly(ms) {
-        locked = true;
-        clearTimeout(lockTimer);
-        lockTimer = setTimeout(function () {
-          locked = false;
-          wheelAcc = 0;
-        }, ms || holdMs);
-      }
-
-      function isFullyPinned() {
-        var rect = root.getBoundingClientRect();
-        var vh = window.innerHeight;
-        return rect.top <= 12 && rect.bottom >= vh - 12;
-      }
-
-      function entryFrom(deltaY) {
-        var rect = root.getBoundingClientRect();
-        var vh = window.innerHeight;
-        if (isFullyPinned()) return null;
-        // From above (scrolling down): section top is still below the viewport top
-        if (deltaY > 0 && rect.top > 12 && rect.top < vh * 0.92) return "above";
-        // From below (scrolling up): section bottom is still above the viewport bottom
-        // (rect.top is typically negative here — that was the previous bug)
-        if (deltaY < 0 && rect.bottom > vh * 0.08 && rect.bottom < vh - 12) return "below";
-        return null;
-      }
-
-      function syncActive() {
-        var next = isFullyPinned();
-        if (next === active) return;
-        active = next;
-        var lenis = getLenis();
-        if (active) {
-          if (lenis && typeof lenis.stop === "function") lenis.stop();
-        } else if (!entering) {
-          if (lenis && typeof lenis.start === "function") lenis.start();
-        }
-      }
-
-      function claimEntry(fromBelow) {
-        if (entering) return;
-        entering = true;
-        // Jump to the correct end-card before the snap so the first paint is full + correct
-        if (fromBelow) setCard(n - 1, false);
-        else setCard(0, false);
-        lockBriefly(holdMs + 280);
-        // From below: snap instantly so half-cards never linger
-        snapToSection(function () {
-          var y = sectionTop();
-          var lenis = getLenis();
-          if (lenis && typeof lenis.scrollTo === "function") {
-            try {
-              lenis.scrollTo(y, { immediate: true });
-            } catch (err) {
-              window.scrollTo(0, y);
-            }
-          } else {
-            window.scrollTo(0, y);
-          }
-          if (fromBelow) setCard(n - 1, false);
-          else setCard(0, false);
-          active = true;
-          if (lenis && typeof lenis.stop === "function") lenis.stop();
-        }, fromBelow);
-      }
-
-      function leaveSection(dir) {
-        active = false;
-        var lenis = getLenis();
-        if (lenis && typeof lenis.start === "function") lenis.start();
-        var vh = window.innerHeight;
-        // Clear the stage completely so reverse entry never lands mid-card
-        var leaveY =
-          dir > 0
-            ? sectionTop() + root.offsetHeight + 8
-            : Math.max(0, sectionTop() - vh + 8);
-        if (lenis && typeof lenis.scrollTo === "function") {
-          lenis.scrollTo(leaveY, { duration: 0.8 });
-        } else {
-          window.scrollTo({ top: leaveY, behavior: "smooth" });
-        }
-        lockBriefly(holdMs + 200);
-      }
-
-      function onWheel(e) {
-        if (entering) {
-          e.preventDefault();
-          return;
-        }
-
-        var approach = !active ? entryFrom(e.deltaY) : null;
-        if (approach) {
-          e.preventDefault();
-          claimEntry(approach === "below");
-          return;
-        }
-
-        syncActive();
-        if (!active) return;
-
-        var dy = e.deltaY;
-        wheelAcc += dy;
-
-        if (locked) {
-          e.preventDefault();
-          return;
-        }
-
-        // Still animating between cards — hold
-        if (Math.abs(target - current) > 0.04) {
-          e.preventDefault();
-          return;
-        }
-
-        if (Math.abs(wheelAcc) < wheelThreshold) {
-          e.preventDefault();
-          return;
-        }
-
-        var dir = wheelAcc > 0 ? 1 : -1;
-        wheelAcc = 0;
-
-        if (dir > 0 && index < n - 1) {
-          e.preventDefault();
-          goTo(index + 1);
-          lockBriefly();
-          return;
-        }
-        if (dir < 0 && index > 0) {
-          e.preventDefault();
-          goTo(index - 1);
-          lockBriefly();
-          return;
-        }
-
-        e.preventDefault();
-        leaveSection(dir);
-      }
-
-      function onTouchStart(e) {
-        if (!e.touches || !e.touches.length) return;
-        touching = true;
-        touchY = e.touches[0].clientY;
-      }
-
-      function onTouchMove(e) {
-        if (!touching || entering) return;
-
-        var y = e.touches[0].clientY;
-        var dy = touchY - y; // >0 finger up = scroll down
-
-        if (!active) {
-          var approach = entryFrom(dy);
-          if (approach && Math.abs(dy) > 24) {
-            e.preventDefault();
-            touching = false;
-            claimEntry(approach === "below");
-            return;
-          }
-        }
-
-        syncActive();
-        if (!active || locked || Math.abs(target - current) > 0.04) {
-          if (active) e.preventDefault();
-          return;
-        }
-        if (Math.abs(dy) < 56) return;
-
-        touching = false;
-        if (dy > 0 && index < n - 1) {
-          e.preventDefault();
-          goTo(index + 1);
-          lockBriefly();
-        } else if (dy < 0 && index > 0) {
-          e.preventDefault();
-          goTo(index - 1);
-          lockBriefly();
-        } else {
-          leaveSection(dy > 0 ? 1 : -1);
-        }
-      }
-
-      function onTouchEnd() {
-        touching = false;
       }
 
       function onScroll() {
-        if (entering || locked) {
-          syncActive();
-          return;
-        }
-        // Free-scroll drifted into a half-visible reverse entry — reclaim to a full pin
-        if (!active) {
-          var rect = root.getBoundingClientRect();
-          var vh = window.innerHeight;
-          // From below: as soon as the stage peeks into the top of the viewport
-          if (rect.top < 0 && rect.bottom > vh * 0.12 && rect.bottom < vh - 8) {
-            claimEntry(true);
-            return;
-          }
-          // From above: section top entered the upper half
-          if (rect.top > 8 && rect.top < vh * 0.7 && rect.bottom >= vh - 8) {
-            claimEntry(false);
-            return;
-          }
-        }
-        syncActive();
+        if (reduce) return;
+        target = scrollTargetIndex();
+        ensureTick();
       }
 
       function onResize() {
-        root.style.height = "100vh";
-        root.style.height = "100dvh";
+        scrollStepVh = window.innerWidth <= 640 ? 64 : 72;
+        setStackHeight();
         root.style.setProperty("--zs-h", "min(calc(100dvh * " + cardHeight + "), 560px)");
+        onScroll();
       }
 
-      apply(0);
-      window.addEventListener("wheel", onWheel, { passive: false });
+      setStackHeight();
+      if (reduce) {
+        apply(0);
+        return;
+      }
+
+      onScroll();
       window.addEventListener("scroll", onScroll, { passive: true });
       window.addEventListener("resize", onResize);
-      root.addEventListener("touchstart", onTouchStart, { passive: true });
-      root.addEventListener("touchmove", onTouchMove, { passive: false });
-      root.addEventListener("touchend", onTouchEnd, { passive: true });
-      syncActive();
+      if (globalThis.lenis && typeof globalThis.lenis.on === "function") {
+        globalThis.lenis.on("scroll", onScroll);
+      }
     })();
   </script>
 </footer>

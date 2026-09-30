@@ -1,0 +1,4 @@
+/* Minimal root styles; marketing uses main.css, CMS uses globals.css */
+body {
+  margin: 0;
+}
