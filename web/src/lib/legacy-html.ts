@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import { LEGACY_PAGES } from "./legacy-pages";
 
-/** Home + blog main markup only; lives under `web/legacy/` (not repo-root HTML). */
+/** Legacy page HTML under `web/legacy/` (not repo-root HTML). */
 const LEGACY_HTML_DIR = path.join(process.cwd(), "legacy");
 
 const filenameToSlugFromRegistry = (() => {
@@ -52,29 +52,6 @@ export function rewriteLegacyLinks(html: string): string {
     const next = rewriteHrefValue(href);
     return next === href ? full : `href=${quote}${next}${quote}`;
   });
-}
-
-/** `<main>...</main>` from a legacy `.html` file (scripts stripped, links rewritten). */
-export function readLegacyMainHtml(filename: string): string {
-  const filePath = path.join(LEGACY_HTML_DIR, filename);
-  if (!fs.existsSync(filePath)) {
-    throw new Error(`Legacy page not found: ${filename} (expected under web/legacy/)`);
-  }
-  const raw = fs.readFileSync(filePath, "utf8");
-  const mainMatch = raw.match(/<main[^>]*>[\s\S]*<\/main>/i);
-  if (!mainMatch) return "";
-  const main = mainMatch[0].replace(/<script[\s\S]*?<\/script>/gi, "").trim();
-  return rewriteLegacyAssetPaths(rewriteLegacyLinks(main));
-}
-
-/** `./images/...` → `/images/...` for Next clean URLs. */
-function rewriteLegacyAssetPaths(html: string): string {
-  return html
-    .replace(/\bsrc=(["'])\.\/images\//gi, "src=$1/images/")
-    .replace(/\bsrcset=(["'])([^"']*)\1/gi, (_full, quote: string, srcset: string) => {
-      const next = srcset.replace(/(?:^|,|\s)\.\/images\//g, (m) => m.replace("./", "/"));
-      return `srcset=${quote}${next}${quote}`;
-    });
 }
 
 /** Body markup from a legacy `.html` file (scripts stripped). */

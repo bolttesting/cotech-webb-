@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import { BlogPageContent } from "@/components/pages/BlogPageContent";
 import { MarketingPageLayout } from "@/components/site/MarketingPageLayout";
+import { fetchPublishedPosts } from "@/lib/blog/queries";
 import { getMarketingMetadata } from "@/lib/marketing-metadata";
 
-export const dynamic = "force-static";
+export const revalidate = 60;
 
 export function generateMetadata(): Metadata {
   const { title, description } = getMarketingMetadata("blog");
@@ -13,10 +14,12 @@ export function generateMetadata(): Metadata {
   };
 }
 
-export default function BlogPage() {
+export default async function BlogPage() {
+  const posts = await fetchPublishedPosts();
+
   return (
     <MarketingPageLayout>
-      <BlogPageContent />
+      <BlogPageContent posts={posts} />
     </MarketingPageLayout>
   );
 }
