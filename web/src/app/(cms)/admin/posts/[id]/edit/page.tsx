@@ -1,4 +1,4 @@
-import { AdminShell } from "@/components/admin/AdminShell";
+import { AdminAppShell } from "@/components/admin/AdminAppShell";
 import { PostForm } from "@/components/admin/PostForm";
 import { createClient } from "@/lib/supabase/server";
 import { notFound } from "next/navigation";
@@ -18,13 +18,21 @@ export default async function EditPostPage({
   if (!post) notFound();
 
   return (
-    <AdminShell title="Edit post">
+    <AdminAppShell
+      title="Edit post"
+      description={post.title}
+      breadcrumbs={[
+        { label: "Dashboard", href: "/admin" },
+        { label: "Blog posts", href: "/admin/posts" },
+        { label: "Edit" },
+      ]}
+    >
       {sp.saved ? (
         <p className="mb-4 rounded-lg bg-emerald-50 px-3 py-2 text-sm text-emerald-800">
           Saved successfully.
         </p>
       ) : null}
       <PostForm post={post} />
-    </AdminShell>
+    </AdminAppShell>
   );
 }

@@ -20,9 +20,10 @@ export function MigrationNotice({ className = "" }: { className?: string }) {
     >
       <p className="font-medium">Database schema missing</p>
       <p className="mt-1 text-sky-900/90">
-        Apply the blog CMS migration{" "}
-        <code className="text-xs">supabase/migrations/20260328180000_blog_cms.sql</code> in your
-        Supabase project, then reload.
+        Run migrations in Supabase SQL Editor:{" "}
+        <code className="text-xs">20260328180000_blog_cms.sql</code>,{" "}
+        <code className="text-xs">20260930100000_admin_leads_settings.sql</code>,{" "}
+        <code className="text-xs">20260930120000_seo_and_blog_rich.sql</code>, then reload.
       </p>
     </div>
   );

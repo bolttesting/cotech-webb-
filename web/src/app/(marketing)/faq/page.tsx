@@ -1,13 +1,12 @@
 import type { Metadata } from "next";
 import { FaqPageContent } from "@/components/pages/FaqPageContent";
 import { MarketingPageLayout } from "@/components/site/MarketingPageLayout";
-import { getMarketingMetadata } from "@/lib/marketing-metadata";
+import { resolveMarketingMetadata } from "@/lib/seo/page-seo";
 
 export const dynamic = "force-static";
 
-export function generateMetadata(): Metadata {
-  const { title, description } = getMarketingMetadata("faq");
-  return { title: title ?? undefined, description: description ?? undefined };
+export async function generateMetadata(): Promise<Metadata> {
+  return resolveMarketingMetadata("faq");
 }
 
 export default function FaqPage() {

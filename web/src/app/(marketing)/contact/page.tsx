@@ -1,22 +1,20 @@
 import type { Metadata } from "next";
 import { ContactPageContent } from "@/components/pages/ContactPageContent";
 import { MarketingPageLayout } from "@/components/site/MarketingPageLayout";
-import { getMarketingMetadata } from "@/lib/marketing-metadata";
+import { resolveMarketingMetadata } from "@/lib/seo/page-seo";
+import { getContactSettings } from "@/lib/site-settings";
 
-export const dynamic = "force-static";
+export const revalidate = 60;
 
-export function generateMetadata(): Metadata {
-  const { title, description } = getMarketingMetadata("contact");
-  return {
-    title: title ?? undefined,
-    description: description ?? undefined,
-  };
+export async function generateMetadata(): Promise<Metadata> {
+  return resolveMarketingMetadata("contact");
 }
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const contact = await getContactSettings();
   return (
     <MarketingPageLayout>
-      <ContactPageContent />
+      <ContactPageContent contact={contact} />
     </MarketingPageLayout>
   );
 }

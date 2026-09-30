@@ -1,13 +1,25 @@
 import Link from "next/link";
-import ReactMarkdown from "react-markdown";
 import { notFound } from "next/navigation";
+import { BlogPostBody } from "@/components/blog/BlogPostBody";
 import { SupabaseSetupNotice } from "@/components/cms/SupabaseSetupNotice";
 import { MarketingPageLayout } from "@/components/site/MarketingPageLayout";
+import type { BlogBodyFormat } from "@/lib/blog/types";
 import { coverPublicUrl } from "@/lib/blog/types";
+import { resolveBlogPostMetadata } from "@/lib/seo/page-seo";
 import { isBlogSchemaMissing } from "@/lib/supabase/env";
 import { tryCreateClient } from "@/lib/supabase/server";
 
 type Props = { params: Promise<{ slug: string }> };
+
+function effectiveBodyFormat(body: string, bodyFormat: string | null | undefined): BlogBodyFormat {
+  if (bodyFormat === "markdown") return "markdown";
+  if (bodyFormat === "html") {
+    const t = body.trim();
+    if (t && !t.startsWith("<")) return "markdown";
+    return "html";
+  }
+  return body.trim().startsWith("<") ? "html" : "markdown";
+}
 
 export async function generateMetadata({ params }: Props) {
   const { slug } = await params;
@@ -17,15 +29,14 @@ export async function generateMetadata({ params }: Props) {
   }
   const { data: post } = await supabase
     .from("blog_posts")
-    .select("title, excerpt")
+    .select(
+      "title, excerpt, slug, meta_title, meta_description, og_title, og_description, og_image_path, cover_image_path, canonical_path, seo_noindex",
+    )
     .eq("slug", slug)
     .eq("status", "published")
     .maybeSingle();
   if (!post) return { title: "Post not found" };
-  return {
-    title: `${post.title} | COTech Blog`,
-    description: post.excerpt ?? undefined,
-  };
+  return resolveBlogPostMetadata(post);
 }
 
 export default async function BlogPostPage({ params }: Props) {
@@ -60,6 +71,7 @@ export default async function BlogPostPage({ params }: Props) {
   if (!post) notFound();
 
   const cover = coverPublicUrl(post.cover_image_path);
+  const bodyFormat = effectiveBodyFormat(post.body, post.body_format);
 
   return (
     <MarketingPageLayout>
@@ -119,9 +131,7 @@ export default async function BlogPostPage({ params }: Props) {
                 {post.excerpt}
               </p>
             ) : null}
-            <article className="blog-details-markdown mx-auto max-w-[884px]">
-              <ReactMarkdown>{post.body}</ReactMarkdown>
-            </article>
+            <BlogPostBody body={post.body} bodyFormat={bodyFormat} />
           </div>
         </section>
       </main>
